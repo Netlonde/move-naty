@@ -1467,6 +1467,11 @@
   dependencies:
     tslib "^2.4.0"
 
+"@types/googlemaps@^3.39.1":
+  version "3.43.3"
+  resolved "https://registry.yarnpkg.com/@types/googlemaps/-/googlemaps-3.43.3.tgz#70cf962154a160fe78bcd69d6ccc296dd9175b1f"
+  integrity sha512-ZWNoz/O8MPEpiajvj7QiqCY8tTLFNqNZ/a+s+zTV58wFVNAvvqV4bdGfnsjTb5Cs4V6wEsLrX8XRhmnyYJ2Tdg==
+
 "@types/json5@^0.0.29":
   version "0.0.29"
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
@@ -2609,6 +2614,13 @@ globby@^13.1.3:
     ignore "^5.2.0"
     merge2 "^1.4.1"
     slash "^4.0.0"
+
+google-maps@^4.3.3:
+  version "4.3.3"
+  resolved "https://registry.yarnpkg.com/google-maps/-/google-maps-4.3.3.tgz#b8026723534e04713303f80853c32a1f1f6ed3cd"
+  integrity sha512-MQbEgBNQbGyV7mfS2tlFgW4EoGKLia24BvAl4a+kgsYWt4283kyPpaay/yKIsScQLr7nSUONaLNfOdMsCuJDEw==
+  dependencies:
+    "@types/googlemaps" "^3.39.1"
 
 gopd@^1.0.1:
   version "1.0.1"
