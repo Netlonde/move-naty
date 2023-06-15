@@ -3,7 +3,7 @@
 import { Box, Grid } from "@mui/material";
 import Background from "./home.style";
 
-import { Navbar, Map, RouteSettings } from "@/components";
+import { Navbar, Map, RouteSettings, CustomTable } from "@/components";
 
 export default function Home() {
   return (

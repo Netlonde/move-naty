@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import Background from "./RouteSettings.style";
 import RouteSettingsController from "./RouteSettings.controller";
-import { CustomButton } from "../CustomButton/CustomButton";
+import { CustomButton } from "../customButton/CustomButton";
 
 export const RouteSettings = () => {
   const { allCheckList } = RouteSettingsController();
