@@ -8,6 +8,8 @@ const Background = styled.nav`
   background-color: #050816;
   justify-content: center;
   color: #fff;
+  position: fixed;
+  z-index: 2;
 `;
 
 export const Container = styled.div`

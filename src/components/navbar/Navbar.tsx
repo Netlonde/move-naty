@@ -1,19 +1,19 @@
 "use client";
 
-import Image from "next/image";
-import Background, { Container } from "./Navbar.styled";
+import Background, { Container } from "./Navbar.style";
+import { Box, Link } from "@mui/material";
 
 export const Navbar = () => {
   return (
     <Background>
       <Container>
-        <div className="logoContainer">
-          <a>MOVENATY</a>
-        </div>
-        <div className="driverAndClientSections">
-          <a>Driver</a>
-          <a>Client</a>
-        </div>
+        <Box className="logoContainer">
+          <Link underline="none">MOVENATY</Link>
+        </Box>
+        <Box className="driverAndClientSections">
+          <Link underline="none">Driver</Link>
+          <Link underline="none">Client</Link>
+        </Box>
       </Container>
     </Background>
   );
