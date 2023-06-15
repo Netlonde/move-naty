@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { instance } from "../../api";
-import { IDrivers } from "./drivers.dto";
+import { IDrivers, IRegisterDriver } from "./drivers.dto";
 
 export const getAllDrivers = async (): Promise<IDrivers[]> => {
   try {
@@ -16,19 +16,21 @@ export const getAllDrivers = async (): Promise<IDrivers[]> => {
   }
 };
 
-// export const registerArea = async (areaData: FormData): Promise<void> => {
-//   try {
-//     await instance.request({
-//       method: 'POST',
-//       url: 'area/area-create',
-//       headers: { 'Content-Type': 'multipart/form-data' },
-//       baseURL: process.env.REACT_APP_MS_AREA,
-//       data: areaData
-//     });
-//   } catch (error: any) {
-//     throw new Error(error.response.data.errorCode);
-//   }
-// };
+export const registerDriver = async (
+  driverData: IRegisterDriver
+): Promise<void> => {
+  try {
+    await instance.request({
+      method: "POST",
+      url: "Condutor",
+      headers: { "Content-Type": "application/json" },
+      baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+      data: driverData,
+    });
+  } catch (error: any) {
+    throw new Error(error.response.data.errorCode);
+  }
+};
 
 // export const editArea = async (areaData: FormData, id: string): Promise<void> => {
 //   const areaId = id || window.location.href.split('/').pop();

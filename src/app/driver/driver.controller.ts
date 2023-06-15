@@ -1,8 +1,17 @@
-import { useDriversStore } from "@/store/drivers/drivers.store";
-import { useEffect } from "react";
+import { useActionModalStore, useDriversStore } from "@/store";
+import { useEffect, useState } from "react";
 
 export const useDriverController = () => {
-  const { getAllDriversRequest, allDriversData } = useDriversStore();
+  const {
+    getAllDriversRequest,
+    handleSetDriverId,
+    allDriversData,
+    isOpenDriverModal,
+    handleSetIsOpenDriverModal,
+  } = useDriversStore();
+  const { handleDrawerOpen } = useActionModalStore();
+
+  const [isEdit, setIsEdit] = useState(false);
 
   const tableHead = [
     "id",
@@ -11,15 +20,6 @@ export const useDriverController = () => {
     "Categoria da Habilitação",
     "Vencimento da Habilitação",
     "Ações",
-  ];
-
-  const tableData = [
-    {
-      name: "carlos",
-      licenseNumber: "1234",
-      licenseCategory: "A",
-      licenseExpiration: "25/12/2026",
-    },
   ];
 
   useEffect(() => {
@@ -37,5 +37,18 @@ export const useDriverController = () => {
     },
   ];
 
-  return { tableHead, allDriversData, actionModalData };
+  function handleOpenRegisterModal() {
+    handleSetIsOpenDriverModal(true);
+  }
+
+  return {
+    tableHead,
+    allDriversData,
+    actionModalData,
+    isOpenDriverModal,
+    isEdit,
+    handleOpenRegisterModal,
+    handleDrawerOpen,
+    handleSetDriverId,
+  };
 };

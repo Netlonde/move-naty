@@ -5,3 +5,10 @@ export interface IDrivers {
   catergoriaHabilitacao: string;
   vencimentoHabilitacao: string;
 }
+
+export interface IRegisterDriver {
+  nome: string;
+  numeroHabilitacao: string;
+  categoriaHabilitacao: string;
+  vencimentoHabilitacao: string;
+}

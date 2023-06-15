@@ -1,13 +1,31 @@
 import create from "zustand";
 import { DriversProps } from "./drivers.props";
-import { getAllDrivers } from "@/service/requests/drivers/drivers.request";
+import {
+  getAllDrivers,
+  registerDriver,
+} from "@/service/requests/drivers/drivers.request";
 
 const initialState = {
   allDriversData: [],
+  driverId: "",
+  isOpenDriverModal: false,
 };
 
 const useDriversStore = create<DriversProps>((set) => ({
   ...initialState,
+
+  handleSetDriverId: (driverId) => set((state) => ({ ...state, driverId })),
+
+  handleSetIsOpenDriverModal: (isOpenDriverModal) =>
+    set((state) => ({ ...state, isOpenDriverModal })),
+
+  handleCreateDriver: async (driverData) => {
+    try {
+      await registerDriver(driverData);
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
+  },
 
   getAllDriversRequest: async () => {
     try {
