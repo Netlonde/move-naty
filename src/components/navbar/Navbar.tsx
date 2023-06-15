@@ -8,11 +8,15 @@ export const Navbar = () => {
     <Background>
       <Container>
         <Box className="logoContainer">
-          <Link underline="none">MOVENATY</Link>
+          <Link underline="none" href="/home">
+            MOVENATY
+          </Link>
         </Box>
         <Box className="driverAndClientSections">
-          <Link underline="none">Driver</Link>
-          <Link underline="none">Client</Link>
+          <Link underline="none" href="/driver">
+            Condutor
+          </Link>
+          <Link underline="none">Cliente</Link>
         </Box>
       </Container>
     </Background>

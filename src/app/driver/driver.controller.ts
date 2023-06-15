@@ -1,9 +1,16 @@
+import { useDriversStore } from "@/store/drivers/drivers.store";
+import { useEffect } from "react";
+
 export const useDriverController = () => {
+  const { getAllDriversRequest, allDriversData } = useDriversStore();
+
   const tableHead = [
-    "name",
-    "licenseNumber",
-    "licenseCategory",
-    "licenseExpiration",
+    "id",
+    "nome",
+    "Número da Habilitação",
+    "Categoria da Habilitação",
+    "Vencimento da Habilitação",
+    "Ações",
   ];
 
   const tableData = [
@@ -14,6 +21,10 @@ export const useDriverController = () => {
       licenseExpiration: "25/12/2026",
     },
   ];
+
+  useEffect(() => {
+    getAllDriversRequest();
+  }, []);
 
   const actionModalData = [
     {
@@ -26,5 +37,5 @@ export const useDriverController = () => {
     },
   ];
 
-  return { tableHead, tableData, actionModalData };
+  return { tableHead, allDriversData, actionModalData };
 };

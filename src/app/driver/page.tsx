@@ -15,7 +15,7 @@ import { Box, Grid, Link, Typography } from "@mui/material";
 import { CustomButton } from "@/components/customButton/CustomButton";
 
 export default function Home() {
-  const { tableHead, tableData, actionModalData } = useDriverController();
+  const { tableHead, allDriversData, actionModalData } = useDriverController();
 
   return (
     <Background>
@@ -36,9 +36,8 @@ export default function Home() {
         </Box>
         <Box>
           <CustomTable
-            containId
             tableHead={tableHead}
-            tableData={tableData}
+            tableData={allDriversData}
             rowsId={[]}
             onClick={function (): void {
               throw new Error("Function not implemented.");
