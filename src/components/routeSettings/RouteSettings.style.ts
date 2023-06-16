@@ -15,7 +15,7 @@ const Background = styled.div`
   .container {
     width: 100%;
     height: auto;
-    background-color: #050816;
+    background-color: #121212;
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -26,7 +26,7 @@ const Background = styled.div`
   }
 
   .routeInput {
-    background-color: #151030;
+    background-color: #1f222a;
     padding: 8px 20px;
     border-radius: 8px;
     color: #aaa6c3;

@@ -5,7 +5,7 @@ const Background = styled.nav`
   display: flex;
   padding: 20px;
   align-items: center;
-  background-color: #050816;
+  background-color: #121212;
   justify-content: center;
   color: #fff;
   position: fixed;

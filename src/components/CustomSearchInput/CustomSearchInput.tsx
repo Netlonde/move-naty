@@ -15,6 +15,7 @@ export function CustomSearchInput(props: CustomSearchInputProps) {
         className="searchInput"
         id={id}
         type="text"
+        onChange={(e) => handleSearch(e.target.value)}
         {...register}
         InputProps={{
           startAdornment: (
