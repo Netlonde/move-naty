@@ -1,32 +1,35 @@
-import { Loader } from "google-maps";
-import { useEffect } from "react";
+"use client";
 
-const MapController = () => {
-  const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+import { useJsApiLoader } from "@react-google-maps/api";
+import React from "react";
 
-  const loader = new Loader(googleMapsApiKey);
+const useMapController = () => {
+  const [map, setMap] = React.useState(null);
 
-  async function initalizeMap() {
-    try {
-      await loader.load().then(() => {
-        new google.maps.Map(
-          document.getElementById("mapContainer") as HTMLElement,
-          { center: { lat: -34.397, lng: 150.644 }, zoom: 8 }
-        );
-      });
-    } catch (error: any) {
-      throw new Error(error.response);
-    }
-  }
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: String(process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY),
+  });
 
-  useEffect(() => {
-    initalizeMap();
+  const center = {
+    lat: -3.745,
+    lng: -38.523,
+  };
 
-    // @ts-ignore
-    window.initMap = initalizeMap;
+  const onLoad = React.useCallback(function callback(
+    map: React.SetStateAction<any>
+  ) {
+    const bounds = new window.google.maps.LatLngBounds(center);
+    map!.fitBounds(bounds);
+
+    setMap(map);
+  },
+  []);
+
+  const onUnmount = React.useCallback(function callback(map: any) {
+    setMap(null);
   }, []);
 
-  return { googleMapsApiKey };
+  return { isLoaded, center, onLoad, onUnmount };
 };
 
-export default MapController;
+export default useMapController;
