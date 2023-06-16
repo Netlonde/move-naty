@@ -6,11 +6,12 @@ import * as yup from "yup";
 import { FormRequiredFields } from "./RegisterModal.props";
 import { useDriversStore, useInfoModalStore } from "@/store";
 
-export const useModalController = (variant: string) => {
+export const useModalController = (variant: string, cleanData: () => void) => {
   const { handleModalOpen, handleSetIsSuccessfully, handleSetText } =
     useInfoModalStore();
   const {
     handleSetIsOpenDriverModal,
+    isOpenDriverModal,
     handleCreateDriver,
     getDriverByIdRequest,
     driverById,
@@ -63,7 +64,7 @@ export const useModalController = (variant: string) => {
     defaultValues: {
       name: "",
       licenseNumber: "",
-      licenseCategory: "",
+      licenseCategory: "A",
       licenseExpiration: "",
     },
     resolver: yupResolver(schema),
@@ -81,17 +82,19 @@ export const useModalController = (variant: string) => {
 
   const getDriverDataFromRequest = async () => {
     if (variant !== "edit") return;
-    try {
-      await getDriverByIdRequest(driverId);
-    } catch (error: any) {
-      handleSetIsSuccessfully(false);
-      handleSetText("Não foi possível obter os dados do condutor.");
-      handleModalOpen();
-    }
+    await getDriverByIdRequest(driverId);
   };
 
   function closeRegisterModal() {
     handleSetIsOpenDriverModal(false);
+  }
+
+  function cleanFields() {
+    setValue("licenseCategory", "A");
+    setValue("licenseExpiration", "");
+    setValue("licenseNumber", "");
+    setValue("name", "");
+    cleanData();
   }
 
   const onSubmitRegister = async () => {
@@ -110,6 +113,7 @@ export const useModalController = (variant: string) => {
       handleSetIsSuccessfully(true);
       handleSetText("Condutor cadastrado com sucesso!");
       closeRegisterModal();
+      cleanFields();
       handleModalOpen();
     } catch (error: any) {
       handleSetIsSuccessfully(false);
@@ -123,7 +127,7 @@ export const useModalController = (variant: string) => {
 
     const formatDataToRequest = {
       id: driverById.id,
-      categoriaHabilitacao: `${driverById.licenseCategory}${licenseCategory}`,
+      categoriaHabilitacao: `${driverById.licenseCategory}-${licenseCategory}`,
       vencimentoHabilitacao: `${licenseExpiration}`,
     };
 
@@ -132,6 +136,7 @@ export const useModalController = (variant: string) => {
       handleSetIsSuccessfully(true);
       handleSetText("Condutor editado com sucesso!");
       closeRegisterModal();
+      cleanFields();
       handleModalOpen();
     } catch (error: any) {
       handleSetIsSuccessfully(false);
@@ -153,7 +158,7 @@ export const useModalController = (variant: string) => {
 
   useEffect(() => {
     getDriverDataFromRequest();
-  }, [driverId]);
+  }, [driverId, isOpenDriverModal]);
 
   return {
     handleSubmit,

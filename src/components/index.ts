@@ -4,3 +4,4 @@ export * from "./routeSettings/RouteSettings";
 export * from "./customTable/CustomTable";
 export * from "./actionModal/ActionModal";
 export * from "./CustomSearchInput/CustomSearchInput";
+export * from "./DeleteModal/DeleteModal";
