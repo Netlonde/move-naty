@@ -1,15 +1,18 @@
 "use client";
 
-import { Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import Background from "./home.style";
 
-import { Navbar } from "@/components";
+import { Navbar, MyComponent, RouteSettings, CustomTable } from "@/components";
 
 export default function Home() {
   return (
     <Background>
       <Navbar />
-      <Box>oi</Box>
+      <Box className="mainContent">
+        <RouteSettings />
+        <MyComponent />
+      </Box>
     </Background>
   );
 }
