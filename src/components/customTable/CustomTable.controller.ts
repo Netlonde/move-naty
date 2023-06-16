@@ -23,6 +23,7 @@ export function useCustomTable(
       : handleIsLastItemOfTable(false);
 
     const componentSelected = e.target as HTMLElement;
+    console.log(componentSelected.parentElement?.id);
 
     if (!componentSelected.id) {
       handleSetItemId(componentSelected.parentElement?.id || "");

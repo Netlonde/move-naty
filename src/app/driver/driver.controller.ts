@@ -12,6 +12,7 @@ export const useDriverController = () => {
     allDriversData,
     isOpenDriverModal,
     handleSetIsOpenDriverModal,
+    driversId,
   } = useDriversStore();
   const { handleDrawerOpen } = useActionModalStore();
   const { handleModalOpen, isOpenInfoModal, isSuccessfully, text } =
@@ -28,20 +29,23 @@ export const useDriverController = () => {
     "Ações",
   ];
 
+  function handleOpenRegisterModal() {
+    handleSetIsOpenDriverModal(true);
+  }
+
   const actionModalData = [
     {
       ButtonsText: "Editar condutor",
-      OnClick: () => {},
+      OnClick: () => {
+        setIsEdit(true);
+        handleOpenRegisterModal();
+      },
     },
     {
       ButtonsText: "Excluir",
       OnClick: () => {},
     },
   ];
-
-  function handleOpenRegisterModal() {
-    handleSetIsOpenDriverModal(true);
-  }
 
   useEffect(() => {
     getAllDriversRequest();
@@ -53,6 +57,7 @@ export const useDriverController = () => {
     actionModalData,
     isOpenDriverModal,
     isEdit,
+    driversId,
     handleModalOpen,
     isOpenInfoModal,
     isSuccessfully,
@@ -60,5 +65,6 @@ export const useDriverController = () => {
     handleOpenRegisterModal,
     handleDrawerOpen,
     handleSetDriverId,
+    setIsEdit,
   };
 };

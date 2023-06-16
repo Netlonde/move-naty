@@ -5,8 +5,8 @@ export interface ModalProps {
 }
 
 export type FormRequiredFields = {
-  name: string;
-  licenseNumber: string;
+  name?: string;
+  licenseNumber?: string;
   licenseCategory: string;
   licenseExpiration: string;
 };

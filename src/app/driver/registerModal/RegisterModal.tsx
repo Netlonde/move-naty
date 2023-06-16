@@ -24,7 +24,7 @@ export function RegisterModal({ isModalOpen, title, variant }: ModalProps) {
     closeRegisterModal,
     submit,
     handleSubmit,
-    employeeById,
+    driverById,
   } = useModalController(variant);
 
   useEffect(() => {
@@ -32,6 +32,8 @@ export function RegisterModal({ isModalOpen, title, variant }: ModalProps) {
       reset();
     }
   }, [isModalOpen]);
+
+  console.log(variant);
 
   return (
     <ModalComponent open={isModalOpen} onClose={closeRegisterModal}>
@@ -53,9 +55,14 @@ export function RegisterModal({ isModalOpen, title, variant }: ModalProps) {
                 placeholder="Insira o nome completo"
                 {...register("name")}
                 error={!!errors.name}
+                disabled={variant === "edit"}
                 onChange={onChange}
                 value={
-                  value ? value[0].toUpperCase() + value.substring(1) : value
+                  variant === "edit"
+                    ? driverById.name
+                    : value
+                    ? value[0].toUpperCase() + value.substring(1)
+                    : value
                 }
               />
             )}
@@ -76,10 +83,15 @@ export function RegisterModal({ isModalOpen, title, variant }: ModalProps) {
               <ModalInput
                 placeholder="Insira o número da licensa"
                 {...register("licenseNumber")}
+                disabled={variant === "edit"}
                 error={!!errors.licenseNumber}
                 onChange={onChange}
                 value={
-                  value ? value[0].toUpperCase() + value.substring(1) : value
+                  variant === "edit"
+                    ? driverById.licenseNumber
+                    : value
+                    ? value[0].toUpperCase() + value.substring(1)
+                    : value
                 }
               />
             )}
@@ -97,15 +109,6 @@ export function RegisterModal({ isModalOpen, title, variant }: ModalProps) {
             name="licenseCategory"
             control={control}
             render={({ field: { onChange, value } }) => (
-              // <ModalInput
-              //   placeholder="Insira a categoria da licensa"
-              //   {...register("licenseCategory")}
-              //   error={!!errors.licenseCategory}
-              //   onChange={onChange}
-              //   value={
-              //     value ? value[0].toUpperCase() + value.substring(1) : value
-              //   }
-              // />
               <Select
                 labelId="category-label"
                 value={

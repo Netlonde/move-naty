@@ -1,46 +1,55 @@
 /* eslint-disable consistent-return */
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { FormRequiredFields } from "./RegisterModal.props";
 import { useDriversStore, useInfoModalStore } from "@/store";
 
 export const useModalController = (variant: string) => {
-  const [employeeById, setEmployeeById] = useState({
-    id: "",
-    name: "",
-    licenseNumber: "",
-    licenseCategory: "",
-    licenseExpiration: "",
-  });
-
   const { handleModalOpen, handleSetIsSuccessfully, handleSetText } =
     useInfoModalStore();
-  const { handleSetIsOpenDriverModal, handleCreateDriver } = useDriversStore();
+  const {
+    handleSetIsOpenDriverModal,
+    handleCreateDriver,
+    getDriverByIdRequest,
+    driverById,
+    handleEditDriver,
+    driverId,
+  } = useDriversStore();
 
-  const schema = yup.object().shape({
-    name: yup
-      .string()
-      .matches(
-        /^[ a-zA-ZÀ-ÿ\u00f1\u00d1]*$/g,
-        "Nome inválido para motorista, evite usar caracteres especiais ou números."
-      )
-      .required("Por favor, preencher campo nome."),
-    licenseNumber: yup
-      .string()
-      .test("isNumber", "Apenas números.", (value: any) => {
-        if (isNaN(value)) return false;
-        return true;
-      })
-      .required("Insira o número da habilitação."),
-    licenseCategory: yup
-      .string()
-      .required("Insira a categoria da habilitação."),
-    licenseExpiration: yup
-      .string()
-      .required("Insira o vencimento da habilitação."),
-  });
+  const schema =
+    variant === "edit"
+      ? yup.object().shape({
+          licenseCategory: yup
+            .string()
+            .required("Insira a categoria da habilitação."),
+          licenseExpiration: yup
+            .string()
+            .required("Insira o vencimento da habilitação."),
+        })
+      : yup.object().shape({
+          name: yup
+            .string()
+            .matches(
+              /^[ a-zA-ZÀ-ÿ\u00f1\u00d1]*$/g,
+              "Nome inválido para motorista, evite usar caracteres especiais ou números."
+            )
+            .required("Por favor, preencher campo nome."),
+          licenseNumber: yup
+            .string()
+            .test("isNumber", "Apenas números.", (value: any) => {
+              if (isNaN(value)) return false;
+              return true;
+            })
+            .required("Insira o número da habilitação."),
+          licenseCategory: yup
+            .string()
+            .required("Insira a categoria da habilitação."),
+          licenseExpiration: yup
+            .string()
+            .required("Insira o vencimento da habilitação."),
+        });
 
   const {
     handleSubmit,
@@ -70,31 +79,16 @@ export const useModalController = (variant: string) => {
     { category: "E" },
   ];
 
-  // const getEmployeeDataFromRequest = async () => {
-  //   if (!edit) return;
-  //   toogleLoading();
-  //   try {
-  //     const { data } = isAdmin
-  //       ? await getAdminDataRequest(id)
-  //       : await getEmployeesDataRequest(id);
-  //     const { data: roleData }: any = isAdmin
-  //       ? ""
-  //       : await getRolesData(data.roleID);
-  //     getRolesDataById();
-  //     setEmployeeById(data);
-  //     setValue("cpf", data.cpf);
-  //     setValue("email", data.email);
-  //     setValue("name", data.name);
-  //     setValue("phone", data.phone);
-  //     setValue("roleID", roleData.data.id);
-  //   } catch (error: any) {
-  //     setTitle(
-  //       "Um erro estranho ocorreu, tente novamente em alguns instantes."
-  //     );
-  //   } finally {
-  //     toogleLoading();
-  //   }
-  // };
+  const getDriverDataFromRequest = async () => {
+    if (variant !== "edit") return;
+    try {
+      await getDriverByIdRequest(driverId);
+    } catch (error: any) {
+      handleSetIsSuccessfully(false);
+      handleSetText("Não foi possível obter os dados do condutor.");
+      handleModalOpen();
+    }
+  };
 
   function closeRegisterModal() {
     handleSetIsOpenDriverModal(false);
@@ -105,8 +99,8 @@ export const useModalController = (variant: string) => {
       getValues();
 
     const formatDataToRequest = {
-      nome: name,
-      numeroHabilitacao: licenseNumber,
+      nome: String(name),
+      numeroHabilitacao: String(licenseNumber),
       categoriaHabilitacao: licenseCategory,
       vencimentoHabilitacao: licenseExpiration,
     };
@@ -124,80 +118,52 @@ export const useModalController = (variant: string) => {
     }
   };
 
-  // const onSubmitEdit = async () => {
-  //   toogleLoading();
-  //   try {
-  //     const { cpf, email, name, phone, roleID } = getValues();
-  //     if (isAdmin) {
-  //       try {
-  //         await editEmployeesAdminRequest(
-  //           { id, cpf, email, name: startcase(name), phone, roleID },
-  //           onComplete
-  //         );
-  //         setTitle("Administrador editado com sucesso!");
-  //         setSuccess(true);
-  //         updateListRequest(currentPage);
-  //       } catch (error: any) {
-  //         setTitle(
-  //           "Um erro estranho ocorreu, tente novamente em alguns instantes."
-  //         );
-  //         setSuccess(false);
-  //         toggleSuccessModalOpen();
-  //       }
-  //     } else {
-  //       try {
-  //         await editEmployeesManagerRequest(
-  //           { id, cpf, email, name: startcase(name), phone, roleID },
-  //           onComplete
-  //         );
-  //         setTitle("Funcionário editado com sucesso!");
-  //         setSuccess(true);
-  //         updateListRequest(currentPage);
-  //       } catch (error: any) {
-  //         setTitle(
-  //           "Um erro estranho ocorreu, tente novamente em alguns instantes."
-  //         );
-  //         setSuccess(false);
-  //         toggleSuccessModalOpen();
-  //       }
-  //     }
-  //   } catch (error: any) {
-  //     setTitle(
-  //       "Um erro estranho ocorreu, tente novamente em alguns instantes."
-  //     );
-  //     setSuccess(false);
-  //   } finally {
-  //     toogleLoading();
-  //   }
-  // };
+  const onSubmitEdit = async () => {
+    const { licenseCategory, licenseExpiration } = getValues();
+
+    const formatDataToRequest = {
+      id: driverById.id,
+      categoriaHabilitacao: `${driverById.licenseCategory}${licenseCategory}`,
+      vencimentoHabilitacao: `${licenseExpiration}`,
+    };
+
+    try {
+      await handleEditDriver(formatDataToRequest, driverId);
+      handleSetIsSuccessfully(true);
+      handleSetText("Condutor editado com sucesso!");
+      closeRegisterModal();
+      handleModalOpen();
+    } catch (error: any) {
+      handleSetIsSuccessfully(false);
+      handleSetText("Não foi possível editar o condutor.");
+      handleModalOpen();
+    }
+  };
 
   const submit = () => {
     if (variant === "register") {
       return onSubmitRegister();
     }
     if (variant === "edit") {
-      // return onSubmitEdit();
+      return onSubmitEdit();
     }
 
     return null;
   };
 
-  // const closeDocumentModal = () => {
-  //   const { cpf, email, name, phone, roleID } = getValues();
-  //   cpf || email || name || phone || roleID
-  //     ? handleBackToLastPageModalOpen()
-  //     : toggleModal();
-  // };
+  useEffect(() => {
+    getDriverDataFromRequest();
+  }, [driverId]);
 
   return {
     handleSubmit,
     register,
+    driverById,
     reset,
     control,
     closeRegisterModal,
     errors,
     submit,
     allLicenseCategory,
-    employeeById,
   };
 };
