@@ -2,6 +2,7 @@ import {
   useActionModalStore,
   useDriversStore,
   useInfoModalStore,
+  useDeleteModalStore,
 } from "@/store";
 import { useEffect, useState } from "react";
 
@@ -11,14 +12,27 @@ export const useDriverController = () => {
     handleSetDriverId,
     allDriversData,
     isOpenDriverModal,
+    deleteDriverRequest,
     handleSetIsOpenDriverModal,
     driversId,
+    driverId,
+    handleSearchDriverData,
   } = useDriversStore();
   const { handleDrawerOpen } = useActionModalStore();
-  const { handleModalOpen, isOpenInfoModal, isSuccessfully, text } =
-    useInfoModalStore();
+  const {
+    handleModalOpen,
+    isOpenInfoModal,
+    isSuccessfully,
+    text,
+    handleSetIsSuccessfully,
+    handleSetText,
+  } = useInfoModalStore();
+
+  const { handleDeleteModalOpen, isOpenDeleteModal } = useDeleteModalStore();
 
   const [isEdit, setIsEdit] = useState(false);
+  const [tableData, setTableData] = useState(allDriversData);
+  const [tableId, setTableId] = useState<string[]>(driversId);
 
   const tableHead = [
     "id",
@@ -43,13 +57,46 @@ export const useDriverController = () => {
     },
     {
       ButtonsText: "Excluir",
-      OnClick: () => {},
+      OnClick: () => {
+        handleDeleteModalOpen();
+      },
     },
   ];
 
+  function cleanDataAndId() {
+    handleSearch("");
+  }
+
+  async function onSubmitDelete(id: string) {
+    try {
+      await deleteDriverRequest(id);
+      handleSetIsSuccessfully(true);
+      handleSetText("Condutor excluído com sucesso!");
+      handleModalOpen();
+      cleanDataAndId();
+    } catch (error: any) {
+      handleSetIsSuccessfully(false);
+      handleSetText("Não foi possível excluir o condutor!");
+      handleModalOpen();
+    }
+  }
+
+  function handleSearch(value: string) {
+    const { formatedDriverData, formatedRowsId } =
+      handleSearchDriverData(value);
+
+    setTableData(formatedDriverData);
+    setTableId(formatedRowsId);
+  }
+
   useEffect(() => {
     getAllDriversRequest();
-  }, [isOpenDriverModal]);
+  }, [isOpenDriverModal, isOpenInfoModal]);
+
+  useEffect(() => {
+    setTableData(allDriversData);
+    setTableId(driversId);
+  }, [allDriversData.length, isOpenInfoModal]);
 
   return {
     tableHead,
@@ -58,13 +105,22 @@ export const useDriverController = () => {
     isOpenDriverModal,
     isEdit,
     driversId,
+    driverId,
     handleModalOpen,
     isOpenInfoModal,
     isSuccessfully,
+    handleDeleteModalOpen,
+    isOpenDeleteModal,
     text,
+    tableData,
+    cleanDataAndId,
+    tableId,
+    onSubmitDelete,
+    handleSearchDriverData,
     handleOpenRegisterModal,
     handleDrawerOpen,
     handleSetDriverId,
     setIsEdit,
+    handleSearch,
   };
 };

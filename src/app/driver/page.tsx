@@ -10,6 +10,7 @@ import {
   CustomTable,
   CustomSearchInput,
   Navbar,
+  DeleteModal,
 } from "@/components";
 import { Box, Typography } from "@mui/material";
 import { CustomButton } from "@/components/customButton/CustomButton";
@@ -23,12 +24,20 @@ export default function Home() {
     actionModalData,
     isEdit,
     driversId,
+    driverId,
     isOpenDriverModal,
+    handleDeleteModalOpen,
+    isOpenDeleteModal,
     handleOpenRegisterModal,
     handleDrawerOpen,
     handleModalOpen,
     isOpenInfoModal,
+    tableData,
+    cleanDataAndId,
+    tableId,
+    onSubmitDelete,
     setIsEdit,
+    handleSearch,
     isSuccessfully,
     text,
     handleSetDriverId,
@@ -49,7 +58,7 @@ export default function Home() {
           </Box>
 
           <Box className="searchContainer">
-            <CustomSearchInput id="area-search" handleSearch={() => {}} />
+            <CustomSearchInput id="area-search" handleSearch={handleSearch} />
             <CustomButton
               onClick={() => {
                 handleOpenRegisterModal();
@@ -61,8 +70,8 @@ export default function Home() {
           <Box>
             <CustomTable
               tableHead={tableHead}
-              tableData={allDriversData}
-              rowsId={driversId}
+              tableData={tableData}
+              rowsId={tableId}
               onClick={() => {
                 handleDrawerOpen();
                 setIsEdit(true);
@@ -85,6 +94,7 @@ export default function Home() {
           </Box>
         </Box>
         <RegisterModal
+          cleanData={() => cleanDataAndId()}
           title={isEdit ? "Editar Condutor" : "Cadastrar Condutor"}
           isModalOpen={isOpenDriverModal}
           variant={isEdit ? "edit" : "register"}
@@ -96,6 +106,14 @@ export default function Home() {
           isSuccessfully={isSuccessfully}
           onClick={handleModalOpen}
           text={text}
+        />
+      )}
+
+      {isOpenDeleteModal && (
+        <DeleteModal
+          title="Tem certeza que quer apagar o condutor?"
+          onClickDelete={() => onSubmitDelete(driverId)}
+          handleModalClose={handleDeleteModalOpen}
         />
       )}
     </Background>
