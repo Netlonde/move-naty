@@ -5,6 +5,7 @@ import {
   registerDriver,
   editDriver,
   getDriverDetailsById,
+  deleteDriver,
 } from "@/service/requests/drivers/drivers.request";
 import { convertDate } from "@/helpers";
 
@@ -22,7 +23,7 @@ const initialState = {
   isOpenDriverModal: false,
 };
 
-const useDriversStore = create<DriversProps>((set) => ({
+const useDriversStore = create<DriversProps>((set, get) => ({
   ...initialState,
 
   handleSetDriverId: (driverId) => set((state) => ({ ...state, driverId })),
@@ -42,7 +43,6 @@ const useDriversStore = create<DriversProps>((set) => ({
   getDriverByIdRequest: async (driverId) => {
     try {
       const data = await getDriverDetailsById(driverId);
-      console.log(data);
       const formatedDriverById = {
         id: data.id,
         name: data.nome,
@@ -63,6 +63,27 @@ const useDriversStore = create<DriversProps>((set) => ({
     } catch (error: any) {
       throw new Error(error.message);
     }
+  },
+
+  deleteDriverRequest: async (id) => {
+    try {
+      await deleteDriver(id);
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
+  },
+
+  handleSearchDriverData: (name) => {
+    const { allDriversData } = get();
+    const formatedDriverData = allDriversData.filter((driver) =>
+      name === "" ? driver : driver.name.includes(name)
+    );
+
+    const formatedRowsId = formatedDriverData.map((item) => {
+      return item.id;
+    });
+
+    return { formatedRowsId, formatedDriverData };
   },
 
   getAllDriversRequest: async () => {
