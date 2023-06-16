@@ -4,6 +4,7 @@ import {
   getAllDrivers,
   registerDriver,
 } from "@/service/requests/drivers/drivers.request";
+import { convertDate } from "@/helpers";
 
 const initialState = {
   allDriversData: [],
@@ -37,7 +38,7 @@ const useDriversStore = create<DriversProps>((set) => ({
           name: driver.nome,
           licenseNumber: driver.numeroHabilitacao,
           licenseCategory: driver.catergoriaHabilitacao,
-          licenseExpiration: driver.vencimentoHabilitacao,
+          licenseExpiration: convertDate(driver.vencimentoHabilitacao),
         };
       });
 
