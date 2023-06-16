@@ -27,7 +27,13 @@ export const useModalController = (variant: string) => {
         "Nome inválido para motorista, evite usar caracteres especiais ou números."
       )
       .required("Por favor, preencher campo nome."),
-    licenseNumber: yup.string().required("Insira o número da habilitação."),
+    licenseNumber: yup
+      .string()
+      .test("isNumber", "Apenas números.", (value: any) => {
+        if (isNaN(value)) return false;
+        return true;
+      })
+      .required("Insira o número da habilitação."),
     licenseCategory: yup
       .string()
       .required("Insira a categoria da habilitação."),
@@ -55,6 +61,14 @@ export const useModalController = (variant: string) => {
     reValidateMode: "onChange",
     mode: "onChange",
   });
+
+  const allLicenseCategory = [
+    { category: "A" },
+    { category: "B" },
+    { category: "C" },
+    { category: "D" },
+    { category: "E" },
+  ];
 
   // const getEmployeeDataFromRequest = async () => {
   //   if (!edit) return;
@@ -183,6 +197,7 @@ export const useModalController = (variant: string) => {
     closeRegisterModal,
     errors,
     submit,
+    allLicenseCategory,
     employeeById,
   };
 };

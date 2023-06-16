@@ -5,6 +5,8 @@ import {
   Modal as ModalComponent,
   Typography,
   FormControl,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import { useEffect } from "react";
 import { Controller } from "react-hook-form";
@@ -18,6 +20,7 @@ export function RegisterModal({ isModalOpen, title, variant }: ModalProps) {
     register,
     reset,
     errors,
+    allLicenseCategory,
     closeRegisterModal,
     submit,
     handleSubmit,
@@ -94,15 +97,28 @@ export function RegisterModal({ isModalOpen, title, variant }: ModalProps) {
             name="licenseCategory"
             control={control}
             render={({ field: { onChange, value } }) => (
-              <ModalInput
-                placeholder="Insira a categoria da licensa"
-                {...register("licenseCategory")}
-                error={!!errors.licenseCategory}
-                onChange={onChange}
+              // <ModalInput
+              //   placeholder="Insira a categoria da licensa"
+              //   {...register("licenseCategory")}
+              //   error={!!errors.licenseCategory}
+              //   onChange={onChange}
+              //   value={
+              //     value ? value[0].toUpperCase() + value.substring(1) : value
+              //   }
+              // />
+              <Select
+                labelId="category-label"
                 value={
-                  value ? value[0].toUpperCase() + value.substring(1) : value
+                  value.length > 0 ? value : allLicenseCategory[0].category
                 }
-              />
+                onChange={onChange}
+              >
+                {allLicenseCategory.map((item, index) => (
+                  <MenuItem key={index} value={item.category}>
+                    {item.category}
+                  </MenuItem>
+                ))}
+              </Select>
             )}
           />
           {errors.licenseCategory && (
