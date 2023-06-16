@@ -1,4 +1,8 @@
-import { useActionModalStore, useDriversStore } from "@/store";
+import {
+  useActionModalStore,
+  useDriversStore,
+  useInfoModalStore,
+} from "@/store";
 import { useEffect, useState } from "react";
 
 export const useDriverController = () => {
@@ -10,6 +14,8 @@ export const useDriverController = () => {
     handleSetIsOpenDriverModal,
   } = useDriversStore();
   const { handleDrawerOpen } = useActionModalStore();
+  const { handleModalOpen, isOpenInfoModal, isSuccessfully, text } =
+    useInfoModalStore();
 
   const [isEdit, setIsEdit] = useState(false);
 
@@ -21,10 +27,6 @@ export const useDriverController = () => {
     "Vencimento da Habilitação",
     "Ações",
   ];
-
-  useEffect(() => {
-    getAllDriversRequest();
-  }, []);
 
   const actionModalData = [
     {
@@ -41,12 +43,20 @@ export const useDriverController = () => {
     handleSetIsOpenDriverModal(true);
   }
 
+  useEffect(() => {
+    getAllDriversRequest();
+  }, [isOpenDriverModal]);
+
   return {
     tableHead,
     allDriversData,
     actionModalData,
     isOpenDriverModal,
     isEdit,
+    handleModalOpen,
+    isOpenInfoModal,
+    isSuccessfully,
+    text,
     handleOpenRegisterModal,
     handleDrawerOpen,
     handleSetDriverId,

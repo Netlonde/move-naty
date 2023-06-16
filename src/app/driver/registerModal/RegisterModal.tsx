@@ -2,9 +2,7 @@
 import {
   Box,
   Button,
-  MenuItem,
   Modal as ModalComponent,
-  TextField,
   Typography,
   FormControl,
 } from "@mui/material";
@@ -12,11 +10,7 @@ import { useEffect } from "react";
 import { Controller } from "react-hook-form";
 import { useModalController } from "./RegisterModal.controller";
 import { ModalProps } from "./RegisterModal.props";
-import {
-  ModalCloseButtonIcon,
-  ModalContent,
-  ModalInput,
-} from "./RegisterModal.style";
+import { ModalContent, ModalInput } from "./RegisterModal.style";
 
 export function RegisterModal({ isModalOpen, title, variant }: ModalProps) {
   const {
@@ -43,10 +37,6 @@ export function RegisterModal({ isModalOpen, title, variant }: ModalProps) {
           if (event.key.includes("Enter")) event.preventDefault();
         }}
       >
-        <Button className="closeIconContainer" onClick={closeRegisterModal}>
-          <ModalCloseButtonIcon />
-        </Button>
-
         <Box className="modalTitle">{title}</Box>
 
         <FormControl className="inputArea">
@@ -149,14 +139,13 @@ export function RegisterModal({ isModalOpen, title, variant }: ModalProps) {
 
         <Box className="buttonsContainer">
           <Button
-            id="admin-register-save"
             style={{
-              backgroundColor: "#662483",
+              backgroundColor: "#285090",
               color: "white",
               width: "48.5%",
               height: 44,
-              fontFamily: "Inter",
-              fontSize: "16px",
+              fontSize: "17px",
+              paddingTop: "8px",
               fontWeight: 500,
               textTransform: "capitalize",
             }}
@@ -170,10 +159,10 @@ export function RegisterModal({ isModalOpen, title, variant }: ModalProps) {
           <Button
             variant="contained"
             style={{
-              backgroundColor: "#F0F1F5",
+              backgroundColor: "#050816",
               width: "48.5%",
-              fontFamily: "Inter",
-              fontSize: "16px",
+              fontSize: "17px",
+              paddingTop: "8px",
               fontWeight: 500,
               height: 44,
               textTransform: "capitalize",

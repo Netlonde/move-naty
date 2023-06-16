@@ -3,7 +3,7 @@
 import { useDriverController } from "./driver.controller";
 import Background from "./driver.style";
 
-import { Fa500Px, FaAccusoft } from "react-icons/fa";
+import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 
 import {
   ActionModal,
@@ -14,6 +14,7 @@ import {
 import { Box, Grid, Link, Typography } from "@mui/material";
 import { CustomButton } from "@/components/customButton/CustomButton";
 import { RegisterModal } from "./registerModal/RegisterModal";
+import { InfoModal } from "@/components/InfoModal/InfoModal";
 
 export default function Home() {
   const {
@@ -24,6 +25,10 @@ export default function Home() {
     isOpenDriverModal,
     handleOpenRegisterModal,
     handleDrawerOpen,
+    handleModalOpen,
+    isOpenInfoModal,
+    isSuccessfully,
+    text,
     handleSetDriverId,
   } = useDriverController();
 
@@ -61,8 +66,14 @@ export default function Home() {
                   <ActionModal
                     ActionModalData={actionModalData}
                     ButtonsIcon={[
-                      <Fa500Px key="edit driver" className="actionIcon" />,
-                      <FaAccusoft key="delete driver" className="actionIcon" />,
+                      <AiOutlineEdit
+                        key="edit driver"
+                        className="actionIcon"
+                      />,
+                      <AiOutlineDelete
+                        key="delete driver"
+                        className="actionIcon"
+                      />,
                     ]}
                   />
                 }
@@ -75,6 +86,13 @@ export default function Home() {
             variant={isEdit ? "Edit" : "register"}
           />
         </>
+      )}
+      {isOpenInfoModal && (
+        <InfoModal
+          isSuccessfully={isSuccessfully}
+          onClick={handleModalOpen}
+          text={text}
+        />
       )}
     </Background>
   );

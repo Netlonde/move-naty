@@ -45,6 +45,10 @@ const Background = styled.div`
     margin-bottom: 30px;
   }
 
+  .actionIcon {
+    margin-top: -4px;
+  }
+
   @media (max-width: 890px) {
     .searchContainer {
       grid-template-columns: 100%;

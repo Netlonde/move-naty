@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { FormRequiredFields } from "./RegisterModal.props";
-import { useDriversStore } from "@/store";
+import { useDriversStore, useInfoModalStore } from "@/store";
 
 export const useModalController = (variant: string) => {
   const [employeeById, setEmployeeById] = useState({
@@ -15,6 +15,8 @@ export const useModalController = (variant: string) => {
     licenseExpiration: "",
   });
 
+  const { handleModalOpen, handleSetIsSuccessfully, handleSetText } =
+    useInfoModalStore();
   const { handleSetIsOpenDriverModal, handleCreateDriver } = useDriversStore();
 
   const schema = yup.object().shape({
@@ -97,8 +99,14 @@ export const useModalController = (variant: string) => {
 
     try {
       await handleCreateDriver(formatDataToRequest);
+      handleSetIsSuccessfully(true);
+      handleSetText("Condutor cadastrado com sucesso!");
+      closeRegisterModal();
+      handleModalOpen();
     } catch (error: any) {
-      throw new Error(error);
+      handleSetIsSuccessfully(false);
+      handleSetText("Não foi possível cadastrar o condutor.");
+      handleModalOpen();
     }
   };
 
@@ -166,8 +174,6 @@ export const useModalController = (variant: string) => {
   //     ? handleBackToLastPageModalOpen()
   //     : toggleModal();
   // };
-
-  useEffect(() => {}, []);
 
   return {
     handleSubmit,

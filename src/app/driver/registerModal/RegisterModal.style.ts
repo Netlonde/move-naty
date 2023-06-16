@@ -26,7 +26,6 @@ export const ModalContent = styled.div`
   }
 
   .modalTitle {
-    font-family: "Public Sans";
     margin-bottom: 32px;
     text-align: left;
 
@@ -42,7 +41,6 @@ export const ModalContent = styled.div`
   }
 
   .inputTitle {
-    font-family: "Inter";
     margin-bottom: "8px";
   }
 
@@ -70,13 +68,6 @@ export const ModalInput = styled(TextField).attrs({
   width: 100%;
 
   & + p {
-    font-family: "Inter";
     color: #ff0000;
-  }
-`;
-
-export const ModalCloseButtonIcon = styled(MdClose)`
-  @media (max-width: 510px) {
-    display: none !important;
   }
 `;
