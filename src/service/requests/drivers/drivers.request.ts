@@ -65,14 +65,15 @@ export const getDriverDetailsById = async (
   }
 };
 
-// export const deleteArea = async (id: string): Promise<void> => {
-//   try {
-//     await instance.request({
-//       method: 'DELETE',
-//       url: `area/area-remove/${id}`,
-//       baseURL: process.env.REACT_APP_MS_AREA
-//     });
-//   } catch (error: any) {
-//     throw new Error(error.response.data.errorCode);
-//   }
-// };
+export const deleteDriver = async (id: string): Promise<void> => {
+  try {
+    await instance.request({
+      method: "DELETE",
+      url: `Condutor/${id}`,
+      baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+      data: { id },
+    });
+  } catch (error: any) {
+    throw new Error(error.response.data.errorCode);
+  }
+};
