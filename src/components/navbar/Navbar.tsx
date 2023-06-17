@@ -22,6 +22,9 @@ export const Navbar = () => {
           <Link underline="none" href="/vehicles">
             Veículo
           </Link>
+          <Link underline="none" href="/displacement">
+            Deslocamento
+          </Link>
         </Box>
       </Container>
     </Background>
