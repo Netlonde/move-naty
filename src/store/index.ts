@@ -4,3 +4,4 @@ export * from "./InfoModal/InfoModal.store";
 export * from "./DeleteModal/DeleteModal.store";
 export * from "./clients/clients.store";
 export * from "./vehicles/vehicles.store";
+export * from "./displacement/displacement.store";
