@@ -16,7 +16,9 @@ export const Navbar = () => {
           <Link underline="none" href="/driver">
             Condutor
           </Link>
-          <Link underline="none">Cliente</Link>
+          <Link underline="none" href="/client">
+            Cliente
+          </Link>
         </Box>
       </Container>
     </Background>
