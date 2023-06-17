@@ -177,7 +177,6 @@ export const useModalController = (variant: string, cleanData: () => void) => {
 
   function setValuesFromRequest() {
     if (variant !== "edit") return;
-    // if (!isOpenClientModal) return;
     setValue("number", clientById.numero);
     setValue("street", clientById.logradouro);
     setValue("city", clientById.cidade);
