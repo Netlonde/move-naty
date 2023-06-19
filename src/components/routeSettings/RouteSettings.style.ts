@@ -56,6 +56,11 @@ const Background = styled.div`
     width: 100%;
   }
 
+  .errorMessage {
+    color: red;
+    font-size: 12px;
+  }
+
   label {
     width: 100%;
   }
