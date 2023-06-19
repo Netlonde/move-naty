@@ -6,6 +6,7 @@ import {
   finishDisplacement,
   getDisplacementDetailsById,
   registerDisplacement,
+  getLocation,
 } from "@/service/requests/displacement/displacement.request";
 import { convertDate } from "@/helpers";
 
@@ -26,7 +27,12 @@ const initialState = {
   },
   displacementId: "",
   displacementsId: [],
+  zoom: 4,
   isOpenDisplacementModal: false,
+  center: {
+    lat: -3.745,
+    lng: -38.523,
+  },
 };
 
 const useDisplacementsStore = create<DisplacementsProps>((set, get) => ({
@@ -36,6 +42,19 @@ const useDisplacementsStore = create<DisplacementsProps>((set, get) => ({
     set((state) => ({ ...state, displacementId })),
   handleSetDisplacementsId: (displacementsId) =>
     set((state) => ({ ...state, displacementsId })),
+
+  handleSetZoom: (zoom) => set((state) => ({ ...state, zoom })),
+
+  getLocationRequest: async (location: string) => {
+    try {
+      const { data } = await getLocation(location);
+      set((state) => ({ ...state, center: { lat: data.lat, lng: data.lng } }));
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
+  },
+
+  handleSetCenter: (center) => set((state) => ({ ...state, center })),
 
   handleSetIsOpenDisplacementModal: (isOpenDisplacementModal) =>
     set((state) => ({ ...state, isOpenDisplacementModal })),

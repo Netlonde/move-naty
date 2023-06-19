@@ -34,8 +34,13 @@ export interface DisplacementsProps {
   isOpenDisplacementModal: boolean;
   allDisplacementsData: IDisplacement[];
   displacementId: string;
+  zoom: number;
   displacementsId: string[];
   displacementById: IDisplacement;
+  center: { lat: number; lng: number };
+  handleSetZoom: (zoom: number) => void;
+  handleSetCenter: (location: { lat: number; lng: number }) => void;
+  getLocationRequest: (location: string) => Promise<void>;
   handleSetIsOpenDisplacementModal: (isOpenDisplacementModal: boolean) => void;
   handleSetDisplacementId: (id: string) => void;
   deleteDisplacementRequest: (id: string) => void;

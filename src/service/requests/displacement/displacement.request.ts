@@ -19,13 +19,34 @@ export const getAllDisplacements = async (): Promise<IDisplacement[]> => {
   }
 };
 
+export const getLocation = async (location: string): Promise<any> => {
+  try {
+    const { data } = await instance.request({
+      method: "GET",
+      url: `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+        location
+      )}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`,
+      baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+    });
+
+    return {
+      data: {
+        lat: data.results[0].geometry.location.lat,
+        lng: data.results[0].geometry.location.lng,
+      },
+    };
+  } catch (error: any) {
+    throw new Error(error.response.data.errorCode);
+  }
+};
+
 export const registerDisplacement = async (
   clientData: IRegisterDisplacement
 ): Promise<void> => {
   try {
     await instance.request({
       method: "POST",
-      url: "Deslocamento",
+      url: "Deslocamento/IniciarDeslocamento",
       headers: { "Content-Type": "application/json" },
       baseURL: process.env.NEXT_PUBLIC_BASE_URL,
       data: clientData,
