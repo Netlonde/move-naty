@@ -1,10 +1,10 @@
 import React from "react";
-import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
+import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import useMapController from "./Map.controller";
 import Container from "./Map.style";
 
-export function MyComponent() {
-  const { isLoaded, center, onLoad, onUnmount } = useMapController();
+export function Map() {
+  const { isLoaded, center, onLoad, onUnmount, map, zoom } = useMapController();
 
   return isLoaded ? (
     <Container>
@@ -14,10 +14,12 @@ export function MyComponent() {
           height: "100%",
         }}
         center={center}
-        zoom={9}
+        zoom={zoom}
         onLoad={onLoad}
         onUnmount={onUnmount}
-      ></GoogleMap>
+      >
+        {center.lat !== -3.745 && <Marker position={center} />}
+      </GoogleMap>
     </Container>
   ) : (
     <></>

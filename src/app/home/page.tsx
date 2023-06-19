@@ -1,18 +1,30 @@
 "use client";
 
-import { Box, Grid } from "@mui/material";
+import { Box } from "@mui/material";
 import Background from "./home.style";
 
-import { Navbar, MyComponent, RouteSettings } from "@/components";
+import { Navbar, Map, RouteSettings } from "@/components";
+import { InfoModal } from "@/components";
+import useHomeController from "./home.controller";
 
 export default function Home() {
+  const { handleModalOpen, isOpenInfoModal, isSuccessfully, text } =
+    useHomeController();
+
   return (
     <Background>
       <Navbar />
       <Box className="mainContent">
         <RouteSettings />
-        <MyComponent />
+        <Map />
       </Box>
+      {isOpenInfoModal && (
+        <InfoModal
+          isSuccessfully={isSuccessfully}
+          onClick={handleModalOpen}
+          text={text}
+        />
+      )}
     </Background>
   );
 }
