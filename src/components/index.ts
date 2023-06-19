@@ -5,3 +5,5 @@ export * from "./customTable/CustomTable";
 export * from "./actionModal/ActionModal";
 export * from "./CustomSearchInput/CustomSearchInput";
 export * from "./DeleteModal/DeleteModal";
+export * from "./InfoModal/InfoModal";
+export * from "./MobileNavbarModal/MobileNavbarModal";
