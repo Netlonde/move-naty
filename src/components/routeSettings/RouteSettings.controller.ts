@@ -21,7 +21,7 @@ export const RouteSettingsController = () => {
     checklist: yup.string(),
     reason: yup.string(),
     observation: yup.string(),
-    departureStart: yup.string(),
+    departureStart: yup.string().required("Insira a data."),
     initialKm: yup
       .string()
       .test("isNumber", "Apenas números.", (value: any) => {
@@ -34,21 +34,21 @@ export const RouteSettingsController = () => {
         if (isNaN(value)) return false;
         return true;
       })
-      .required("Preencher com o id do condutor."),
+      .required("Preencher o id do condutor."),
     vehicleId: yup
       .string()
       .test("isNumber", "Apenas números.", (value: any) => {
         if (isNaN(value)) return false;
         return true;
       })
-      .required("Preencher com o id do veículo."),
+      .required("Preencher o id do veículo."),
     clientId: yup
       .string()
       .test("isNumber", "Apenas números.", (value: any) => {
         if (isNaN(value)) return false;
         return true;
       })
-      .required("Preencher com o id do cliente."),
+      .required("Preencher o id do cliente."),
   });
 
   const {
@@ -112,7 +112,7 @@ export const RouteSettingsController = () => {
     } = getValues();
 
     const formatDataToRequest = {
-      kmInicial: initialKm,
+      kmInicial: initialKm.length > 0 ? initialKm : "0",
       inicioDeslocamento: departureStart,
       checkList: checklist,
       motivo: reason,
