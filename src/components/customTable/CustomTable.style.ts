@@ -5,7 +5,7 @@ const Container = styled.div`
   border: 1px solid #e0e7ed;
   border-radius: 16px;
   min-height: 600px;
-  max-height: 680px;
+  max-height: 600px;
   overflow-y: auto;
   position: relative;
 
