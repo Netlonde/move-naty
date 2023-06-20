@@ -4,7 +4,8 @@ import useMapController from "./Map.controller";
 import Container from "./Map.style";
 
 export function Map() {
-  const { isLoaded, center, onLoad, onUnmount, map, zoom } = useMapController();
+  const { isLoaded, center, onLoad, onUnmount, map, zoom, isMark } =
+    useMapController();
 
   return isLoaded ? (
     <Container>
@@ -18,7 +19,7 @@ export function Map() {
         onLoad={onLoad}
         onUnmount={onUnmount}
       >
-        {center.lat !== -3.745 && <Marker position={center} />}
+        {center.lat !== -3.745 && isMark && <Marker position={center} />}
       </GoogleMap>
     </Container>
   ) : (

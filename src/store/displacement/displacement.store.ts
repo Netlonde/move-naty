@@ -33,6 +33,7 @@ const initialState = {
     lat: -3.745,
     lng: -38.523,
   },
+  isMark: false,
 };
 
 const useDisplacementsStore = create<DisplacementsProps>((set, get) => ({
@@ -55,6 +56,7 @@ const useDisplacementsStore = create<DisplacementsProps>((set, get) => ({
   },
 
   handleSetCenter: (center) => set((state) => ({ ...state, center })),
+  handleIsMark: (isMark) => set((state) => ({ ...state, isMark })),
 
   handleSetIsOpenDisplacementModal: (isOpenDisplacementModal) =>
     set((state) => ({ ...state, isOpenDisplacementModal })),

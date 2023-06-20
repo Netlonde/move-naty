@@ -2,10 +2,10 @@
 
 import { useDisplacementsStore } from "@/store";
 import { useJsApiLoader } from "@react-google-maps/api";
-import React, { useState } from "react";
+import React from "react";
 
 const useMapController = () => {
-  const { center, zoom } = useDisplacementsStore();
+  const { center, zoom, isMark } = useDisplacementsStore();
   const [map, setMap] = React.useState(null);
 
   const { isLoaded } = useJsApiLoader({
@@ -25,7 +25,7 @@ const useMapController = () => {
     setMap(null);
   }, []);
 
-  return { isLoaded, center, onLoad, onUnmount, map, zoom };
+  return { isLoaded, center, onLoad, onUnmount, map, zoom, isMark };
 };
 
 export default useMapController;

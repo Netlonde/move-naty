@@ -91,6 +91,7 @@ const Background = styled.div`
   @media (max-width: 800px) {
     width: 100%;
     left: 0;
+    height: 490px;
 
     .routeForm {
       margin-top: 0px;

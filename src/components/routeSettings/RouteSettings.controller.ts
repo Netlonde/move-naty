@@ -11,8 +11,12 @@ import {
 import { debounce } from "@/helpers";
 
 export const RouteSettingsController = () => {
-  const { handleCreateDisplacement, getLocationRequest, handleSetZoom } =
-    useDisplacementsStore();
+  const {
+    handleCreateDisplacement,
+    getLocationRequest,
+    handleSetZoom,
+    handleIsMark,
+  } = useDisplacementsStore();
   const { getClientByIdRequest, clientById } = useClientsStore();
   const { handleModalOpen, handleSetIsSuccessfully, handleSetText } =
     useInfoModalStore();
@@ -88,10 +92,12 @@ export const RouteSettingsController = () => {
 
   const debouncedGetClientAddress = debounce(async function (id: string) {
     try {
+      handleIsMark(false);
       if (!id) return;
       await getClientByIdRequest(id);
       setValue("clientId", id);
       handleSetZoom(15);
+      handleIsMark(true);
     } catch {
       handleSetIsSuccessfully(false);
       handleSetText(`Não existe cliente com o id ${id}`);
@@ -130,7 +136,9 @@ export const RouteSettingsController = () => {
       handleModalOpen();
     } catch (error: any) {
       handleSetIsSuccessfully(false);
-      handleSetText("Não foi possível cadastrar o deslocamento.");
+      handleSetText(
+        error.length > 0 ? error : "Não foi possível cadastrar o deslocamento."
+      );
       handleModalOpen();
     }
   };
@@ -140,8 +148,18 @@ export const RouteSettingsController = () => {
   };
 
   async function updateLocationToClient() {
-    const location = `${clientById.logradouro}, ${clientById.numero}, ${clientById.bairro}, ${clientById.cidade}, ${clientById.uf}`;
-    await getLocationRequest(location);
+    try {
+      const location = `${clientById.logradouro}, ${clientById.numero}, ${clientById.bairro}, ${clientById.cidade}, ${clientById.uf}`;
+      await getLocationRequest(location);
+    } catch (error: any) {
+      handleSetIsSuccessfully(false);
+      handleSetText(
+        error.length > 0
+          ? error
+          : "Não foi possível encontrar o endereço do cliente."
+      );
+      handleModalOpen();
+    }
   }
 
   useEffect(() => {
