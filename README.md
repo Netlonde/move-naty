@@ -32,4 +32,9 @@
   <li><code>$ yarn start</code></li>
 </ul>
 
+# :coffee: Note
+<ul>
+  <li>Remember to change variables in .env</li>
+</ul>
+
 The application will open in the browser on http://localhost:3000
