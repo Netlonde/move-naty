@@ -7,6 +7,7 @@ import {
   useDisplacementsStore,
   useInfoModalStore,
   useClientsStore,
+  useLoadingModalStore,
 } from "@/store";
 import { debounce } from "@/helpers";
 
@@ -20,6 +21,8 @@ export const RouteSettingsController = () => {
   const { getClientByIdRequest, clientById } = useClientsStore();
   const { handleModalOpen, handleSetIsSuccessfully, handleSetText } =
     useInfoModalStore();
+
+  const { handleSetIsLoading } = useLoadingModalStore();
 
   const schema = yup.object().shape({
     checklist: yup.string(),
@@ -91,6 +94,7 @@ export const RouteSettingsController = () => {
   }
 
   const debouncedGetClientAddress = debounce(async function (id: string) {
+    handleSetIsLoading(true);
     try {
       handleIsMark(false);
       if (!id) return;
@@ -102,6 +106,8 @@ export const RouteSettingsController = () => {
       handleSetIsSuccessfully(false);
       handleSetText(`Não existe cliente com o id ${id}`);
       handleModalOpen();
+    } finally {
+      handleSetIsLoading(false);
     }
   });
 
@@ -128,6 +134,8 @@ export const RouteSettingsController = () => {
       idCliente: clientId,
     };
 
+    handleSetIsLoading(true);
+
     try {
       await handleCreateDisplacement(formatDataToRequest);
       handleSetIsSuccessfully(true);
@@ -142,6 +150,8 @@ export const RouteSettingsController = () => {
           : "Não foi possível cadastrar o deslocamento."
       );
       handleModalOpen();
+    } finally {
+      handleSetIsLoading(false);
     }
   };
 
@@ -150,17 +160,16 @@ export const RouteSettingsController = () => {
   };
 
   async function updateLocationToClient() {
+    handleSetIsLoading(true);
     try {
       const location = `${clientById.logradouro}, ${clientById.numero}, ${clientById.bairro}, ${clientById.cidade}, ${clientById.uf}`;
       await getLocationRequest(location);
-    } catch (error: any) {
+    } catch {
       handleSetIsSuccessfully(false);
-      handleSetText(
-        error.message.length > 0
-          ? error.message
-          : "Não foi possível encontrar o endereço do cliente."
-      );
+      handleSetText("Não foi possível encontrar o endereço do cliente.");
       handleModalOpen();
+    } finally {
+      handleSetIsLoading(false);
     }
   }
 
