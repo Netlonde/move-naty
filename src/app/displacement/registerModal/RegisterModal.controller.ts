@@ -4,7 +4,11 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { FormRequiredFields } from "./RegisterModal.props";
-import { useDisplacementsStore, useInfoModalStore } from "@/store";
+import {
+  useDisplacementsStore,
+  useInfoModalStore,
+  useLoadingModalStore,
+} from "@/store";
 
 export const useModalController = (variant: string, cleanData: () => void) => {
   const { handleModalOpen, handleSetIsSuccessfully, handleSetText } =
@@ -17,6 +21,8 @@ export const useModalController = (variant: string, cleanData: () => void) => {
     handleFinishDisplacement,
     displacementId,
   } = useDisplacementsStore();
+
+  const { handleSetIsLoading } = useLoadingModalStore();
 
   const schema = yup.object().shape({
     endDisplacement: yup
@@ -77,6 +83,8 @@ export const useModalController = (variant: string, cleanData: () => void) => {
       observacao: hasObservation,
     };
 
+    handleSetIsLoading(true);
+
     try {
       await handleFinishDisplacement(formatDataToRequest, displacementId);
       handleSetIsSuccessfully(true);
@@ -87,9 +95,13 @@ export const useModalController = (variant: string, cleanData: () => void) => {
     } catch (error: any) {
       handleSetIsSuccessfully(false);
       handleSetText(
-        error.length > 0 ? error : "Não foi possível editar o displacemente."
+        error.length > 0
+          ? error.message
+          : "Não foi possível editar o displacemente."
       );
       handleModalOpen();
+    } finally {
+      handleSetIsLoading(false);
     }
   };
 

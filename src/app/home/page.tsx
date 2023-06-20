@@ -3,12 +3,12 @@
 import { Box } from "@mui/material";
 import Background from "./home.style";
 
-import { Navbar, Map, RouteSettings } from "@/components";
+import { Navbar, Map, RouteSettings, Loading } from "@/components";
 import { InfoModal } from "@/components";
 import useHomeController from "./home.controller";
 
 export default function Home() {
-  const { handleModalOpen, isOpenInfoModal, isSuccessfully, text } =
+  const { handleModalOpen, isOpenInfoModal, isSuccessfully, text, isLoading } =
     useHomeController();
 
   return (
@@ -25,6 +25,7 @@ export default function Home() {
           text={text}
         />
       )}
+      {isLoading && <Loading />}
     </Background>
   );
 }

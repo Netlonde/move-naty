@@ -3,7 +3,12 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { FormRequiredFields } from "./RegisterModal.props";
-import { useClientsStore, useInfoModalStore } from "@/store";
+import {
+  useClientsStore,
+  useDeleteModalStore,
+  useInfoModalStore,
+  useLoadingModalStore,
+} from "@/store";
 
 export const useModalController = (variant: string, cleanData: () => void) => {
   const { handleModalOpen, handleSetIsSuccessfully, handleSetText } =
@@ -17,6 +22,8 @@ export const useModalController = (variant: string, cleanData: () => void) => {
     handleEditClient,
     clientId,
   } = useClientsStore();
+
+  const { handleSetIsLoading } = useLoadingModalStore();
 
   const schema = yup.object().shape({
     name: yup
@@ -122,6 +129,8 @@ export const useModalController = (variant: string, cleanData: () => void) => {
       uf: uf,
     };
 
+    handleSetIsLoading(true);
+
     try {
       await handleCreateClient(formatDataToRequest);
       handleSetIsSuccessfully(true);
@@ -132,9 +141,13 @@ export const useModalController = (variant: string, cleanData: () => void) => {
     } catch (error: any) {
       handleSetIsSuccessfully(false);
       handleSetText(
-        error.length > 0 ? error : "Não foi possível cadastrar o cliente."
+        error.length > 0
+          ? error.message
+          : "Não foi possível cadastrar o cliente."
       );
       handleModalOpen();
+    } finally {
+      handleSetIsLoading(false);
     }
   };
 
@@ -151,6 +164,8 @@ export const useModalController = (variant: string, cleanData: () => void) => {
       uf: uf,
     };
 
+    handleSetIsLoading(true);
+
     try {
       await handleEditClient(formatDataToRequest, clientId);
       handleSetIsSuccessfully(true);
@@ -161,9 +176,13 @@ export const useModalController = (variant: string, cleanData: () => void) => {
     } catch (error: any) {
       handleSetIsSuccessfully(false);
       handleSetText(
-        error.length > 0 ? error : "Não foi possível editar o cliente."
+        error.message.length > 0
+          ? error.message
+          : "Não foi possível editar o cliente."
       );
       handleModalOpen();
+    } finally {
+      handleSetIsLoading(false);
     }
   };
 

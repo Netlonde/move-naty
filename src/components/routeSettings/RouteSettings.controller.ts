@@ -137,7 +137,9 @@ export const RouteSettingsController = () => {
     } catch (error: any) {
       handleSetIsSuccessfully(false);
       handleSetText(
-        error.length > 0 ? error : "Não foi possível cadastrar o deslocamento."
+        error.message.length > 0
+          ? error.message
+          : "Não foi possível cadastrar o deslocamento."
       );
       handleModalOpen();
     }
@@ -154,8 +156,8 @@ export const RouteSettingsController = () => {
     } catch (error: any) {
       handleSetIsSuccessfully(false);
       handleSetText(
-        error.length > 0
-          ? error
+        error.message.length > 0
+          ? error.message
           : "Não foi possível encontrar o endereço do cliente."
       );
       handleModalOpen();

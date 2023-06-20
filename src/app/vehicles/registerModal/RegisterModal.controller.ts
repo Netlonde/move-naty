@@ -4,7 +4,12 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { FormRequiredFields } from "./RegisterModal.props";
-import { useVehiclesStore, useInfoModalStore } from "@/store";
+import {
+  useVehiclesStore,
+  useInfoModalStore,
+  useDeleteModalStore,
+  useLoadingModalStore,
+} from "@/store";
 
 export const useModalController = (variant: string, cleanData: () => void) => {
   const { handleModalOpen, handleSetIsSuccessfully, handleSetText } =
@@ -18,6 +23,8 @@ export const useModalController = (variant: string, cleanData: () => void) => {
     handleEditVehicle,
     vehicleId,
   } = useVehiclesStore();
+
+  const { handleSetIsLoading } = useLoadingModalStore();
 
   const schema = yup.object().shape({
     licensePlate: yup.string().required("Insira a placa do veículo."),
@@ -106,6 +113,8 @@ export const useModalController = (variant: string, cleanData: () => void) => {
       kmAtual: currentMileage,
     };
 
+    handleSetIsLoading(true);
+
     try {
       await handleCreateVehicle(formatDataToRequest);
       handleSetIsSuccessfully(true);
@@ -116,9 +125,13 @@ export const useModalController = (variant: string, cleanData: () => void) => {
     } catch (error: any) {
       handleSetIsSuccessfully(false);
       handleSetText(
-        error.length > 0 ? error : "Não foi possível cadastrar o veículo."
+        error.length > 0
+          ? error.message
+          : "Não foi possível cadastrar o veículo."
       );
       handleModalOpen();
+    } finally {
+      handleSetIsLoading(false);
     }
   };
 
@@ -132,6 +145,8 @@ export const useModalController = (variant: string, cleanData: () => void) => {
       kmAtual: currentMileage,
     };
 
+    handleSetIsLoading(true);
+
     try {
       await handleEditVehicle(formatDataToRequest, vehicleId);
       handleSetIsSuccessfully(true);
@@ -142,9 +157,13 @@ export const useModalController = (variant: string, cleanData: () => void) => {
     } catch (error: any) {
       handleSetIsSuccessfully(false);
       handleSetText(
-        error.length > 0 ? error : "Não foi possível editar o veículo."
+        error.message.length > 0
+          ? error.message
+          : "Não foi possível editar o veículo."
       );
       handleModalOpen();
+    } finally {
+      handleSetIsLoading(false);
     }
   };
 

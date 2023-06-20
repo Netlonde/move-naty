@@ -3,6 +3,7 @@ import {
   useDriversStore,
   useInfoModalStore,
   useDeleteModalStore,
+  useLoadingModalStore,
 } from "@/store";
 import { useEffect, useState } from "react";
 
@@ -28,6 +29,7 @@ export const useDriverController = () => {
     handleSetText,
   } = useInfoModalStore();
 
+  const { isLoading, handleSetIsLoading } = useLoadingModalStore();
   const { handleDeleteModalOpen, isOpenDeleteModal } = useDeleteModalStore();
 
   const [isEdit, setIsEdit] = useState(false);
@@ -68,6 +70,7 @@ export const useDriverController = () => {
   }
 
   async function onSubmitDelete(id: string) {
+    handleSetIsLoading(true);
     try {
       await deleteDriverRequest(id);
       handleSetIsSuccessfully(true);
@@ -77,9 +80,13 @@ export const useDriverController = () => {
     } catch (error: any) {
       handleSetIsSuccessfully(false);
       handleSetText(
-        error.length > 0 ? error : "Não foi possível excluir o condutor!"
+        error.length > 0
+          ? error.message
+          : "Não foi possível excluir o condutor!"
       );
       handleModalOpen();
+    } finally {
+      handleSetIsLoading(false);
     }
   }
 
@@ -116,6 +123,7 @@ export const useDriverController = () => {
     text,
     tableData,
     cleanDataAndId,
+    isLoading,
     tableId,
     onSubmitDelete,
     handleSearchDriverData,

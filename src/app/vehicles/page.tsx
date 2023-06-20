@@ -11,6 +11,7 @@ import {
   CustomSearchInput,
   Navbar,
   DeleteModal,
+  Loading,
 } from "@/components";
 import { Box, Typography } from "@mui/material";
 import { CustomButton } from "@/components/customButton/CustomButton";
@@ -20,10 +21,9 @@ import { InfoModal } from "@/components/InfoModal/InfoModal";
 export default function Vehicle() {
   const {
     tableHead,
-    allVehiclesData,
     actionModalData,
     isEdit,
-    vehiclesId,
+    isLoading,
     vehicleId,
     isOpenVehicleModal,
     handleDeleteModalOpen,
@@ -116,6 +116,8 @@ export default function Vehicle() {
           handleModalClose={handleDeleteModalOpen}
         />
       )}
+
+      {isLoading && <Loading />}
     </Background>
   );
 }

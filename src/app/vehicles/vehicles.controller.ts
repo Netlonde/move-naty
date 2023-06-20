@@ -2,6 +2,7 @@ import {
   useActionModalStore,
   useVehiclesStore,
   useInfoModalStore,
+  useLoadingModalStore,
   useDeleteModalStore,
 } from "@/store";
 import { useEffect, useState } from "react";
@@ -19,6 +20,7 @@ export const useVehicleController = () => {
     handleSearchVehicleData,
   } = useVehiclesStore();
   const { handleDrawerOpen } = useActionModalStore();
+  const { handleSetIsLoading, isLoading } = useLoadingModalStore();
   const {
     handleModalOpen,
     isOpenInfoModal,
@@ -68,6 +70,7 @@ export const useVehicleController = () => {
   }
 
   async function onSubmitDelete(id: string) {
+    handleSetIsLoading(true);
     try {
       await deleteVehicleRequest(id);
       handleSetIsSuccessfully(true);
@@ -77,9 +80,13 @@ export const useVehicleController = () => {
     } catch (error: any) {
       handleSetIsSuccessfully(false);
       handleSetText(
-        error.length > 0 ? error : "Não foi possível excluir o veículo!"
+        error.message.length > 0
+          ? error.message
+          : "Não foi possível excluir o veículo!"
       );
       handleModalOpen();
+    } finally {
+      handleSetIsLoading(false);
     }
   }
 
@@ -108,6 +115,7 @@ export const useVehicleController = () => {
     isEdit,
     vehiclesId,
     vehicleId,
+    isLoading,
     handleModalOpen,
     isOpenInfoModal,
     isSuccessfully,
