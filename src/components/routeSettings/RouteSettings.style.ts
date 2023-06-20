@@ -103,6 +103,7 @@ const Background = styled.div`
       right: 0;
       left: 0;
       padding-top: 10px;
+      border-radius: 0;
       padding-bottom: 10px;
     }
   }
