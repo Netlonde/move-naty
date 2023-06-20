@@ -5,3 +5,5 @@ export * from "./DeleteModal/DeleteModal.store";
 export * from "./clients/clients.store";
 export * from "./vehicles/vehicles.store";
 export * from "./displacement/displacement.store";
+export * from "./mobileNavbarModal/mobileNavbarModal.store";
+export * from "./loadingModal/LoadingModal.store";

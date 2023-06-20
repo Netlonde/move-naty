@@ -1,9 +1,13 @@
 "use client";
 
+import { MobileNavbarModal } from "../MobileNavbarModal/MobileNavbarModal";
+import useNavbarController from "./Navbar.controller";
 import Background, { Container } from "./Navbar.style";
 import { Box, Link } from "@mui/material";
 
 export const Navbar = () => {
+  const { handleOpenMobileNavbarModal, isOpenMobileNavbarModal } =
+    useNavbarController();
   return (
     <Background>
       <Container>
@@ -26,6 +30,12 @@ export const Navbar = () => {
             Deslocamento
           </Link>
         </Box>
+        <Box className="MobileContainer" onClick={handleOpenMobileNavbarModal}>
+          &#9776;
+        </Box>
+        {isOpenMobileNavbarModal && (
+          <MobileNavbarModal handleModalClose={handleOpenMobileNavbarModal} />
+        )}
       </Container>
     </Background>
   );

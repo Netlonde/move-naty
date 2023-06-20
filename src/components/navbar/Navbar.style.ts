@@ -46,6 +46,22 @@ export const Container = styled.div`
     font-weight: bold;
     color: #fff;
   }
+
+  .MobileContainer {
+    display: none;
+  }
+
+  @media (max-width: 660px) {
+    .driverAndClientSections {
+      display: none;
+    }
+
+    .MobileContainer {
+      display: block;
+      font-size: 19px;
+      cursor: pointer;
+    }
+  }
 `;
 
 export default Background;

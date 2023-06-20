@@ -11,6 +11,7 @@ import {
   CustomSearchInput,
   Navbar,
   DeleteModal,
+  Loading,
 } from "@/components";
 import { Box, Typography } from "@mui/material";
 import { CustomButton } from "@/components/customButton/CustomButton";
@@ -25,6 +26,7 @@ export default function Client() {
     clientId,
     isOpenClientModal,
     handleDeleteModalOpen,
+    isLoading,
     isOpenDeleteModal,
     handleOpenRegisterModal,
     handleDrawerOpen,
@@ -114,6 +116,8 @@ export default function Client() {
           handleModalClose={handleDeleteModalOpen}
         />
       )}
+
+      {isLoading && <Loading />}
     </Background>
   );
 }

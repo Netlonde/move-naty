@@ -80,21 +80,7 @@ export function CustomTable(props: CustomTableProps) {
                           id={formateRowsId[index]}
                           className="tableCellRow"
                         >
-                          <ButtonColor
-                            id={formateRowsId[index]}
-                            column={
-                              data.status === value
-                                ? "statusColumn"
-                                : "visitorType"
-                            }
-                            typeCell={
-                              data.visitType === value
-                                ? "typeCell"
-                                : "visitorType"
-                            }
-                            primaryColor={value}
-                            page={"teste"}
-                          >
+                          <ButtonColor id={formateRowsId[index]}>
                             {value}
                           </ButtonColor>
                         </StyledTableCell>
@@ -107,21 +93,7 @@ export function CustomTable(props: CustomTableProps) {
                             indexValue === 1 ? "firstItem tableCellRow" : ""
                           }
                         >
-                          <ButtonColor
-                            id={formateRowsId[index]}
-                            primaryColor={value}
-                            column={
-                              data.status === value
-                                ? "statusColumn"
-                                : "visitorType"
-                            }
-                            typeCell={
-                              data.visitType === value
-                                ? "typeCell"
-                                : "visitorType"
-                            }
-                            page={"teste"}
-                          >
+                          <ButtonColor id={formateRowsId[index]}>
                             {value}
                           </ButtonColor>
                         </StyledTableCell>

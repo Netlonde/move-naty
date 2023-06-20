@@ -3,6 +3,7 @@ import {
   useClientsStore,
   useInfoModalStore,
   useDeleteModalStore,
+  useLoadingModalStore,
 } from "@/store";
 import { useEffect, useState } from "react";
 
@@ -29,6 +30,8 @@ export const useClientController = () => {
   } = useInfoModalStore();
 
   const { handleDeleteModalOpen, isOpenDeleteModal } = useDeleteModalStore();
+
+  const { isLoading, handleSetIsLoading } = useLoadingModalStore();
 
   const [isEdit, setIsEdit] = useState(false);
   const [tableData, setTableData] = useState(allClientsData);
@@ -72,6 +75,7 @@ export const useClientController = () => {
   }
 
   async function onSubmitDelete(id: string) {
+    handleSetIsLoading(true);
     try {
       await deleteClientRequest(id);
       handleSetIsSuccessfully(true);
@@ -80,8 +84,14 @@ export const useClientController = () => {
       cleanDataAndId();
     } catch (error: any) {
       handleSetIsSuccessfully(false);
-      handleSetText("Não foi possível excluir o cliente!");
+      handleSetText(
+        error.message.length > 0
+          ? error.message
+          : "Não foi possível excluir o cliente!"
+      );
       handleModalOpen();
+    } finally {
+      handleSetIsLoading(false);
     }
   }
 
@@ -116,6 +126,7 @@ export const useClientController = () => {
     handleDeleteModalOpen,
     isOpenDeleteModal,
     text,
+    isLoading,
     tableData,
     cleanDataAndId,
     tableId,

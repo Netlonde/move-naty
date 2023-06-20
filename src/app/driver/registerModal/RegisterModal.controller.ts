@@ -4,7 +4,11 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { FormRequiredFields } from "./RegisterModal.props";
-import { useDriversStore, useInfoModalStore } from "@/store";
+import {
+  useDriversStore,
+  useInfoModalStore,
+  useLoadingModalStore,
+} from "@/store";
 
 export const useModalController = (variant: string, cleanData: () => void) => {
   const { handleModalOpen, handleSetIsSuccessfully, handleSetText } =
@@ -18,6 +22,8 @@ export const useModalController = (variant: string, cleanData: () => void) => {
     handleEditDriver,
     driverId,
   } = useDriversStore();
+
+  const { handleSetIsLoading } = useLoadingModalStore();
 
   const schema =
     variant === "edit"
@@ -108,6 +114,8 @@ export const useModalController = (variant: string, cleanData: () => void) => {
       vencimentoHabilitacao: licenseExpiration,
     };
 
+    handleSetIsLoading(true);
+
     try {
       await handleCreateDriver(formatDataToRequest);
       handleSetIsSuccessfully(true);
@@ -117,8 +125,14 @@ export const useModalController = (variant: string, cleanData: () => void) => {
       handleModalOpen();
     } catch (error: any) {
       handleSetIsSuccessfully(false);
-      handleSetText("Não foi possível cadastrar o condutor.");
+      handleSetText(
+        error.message.length > 0
+          ? error.message
+          : "Não foi possível cadastrar o condutor."
+      );
       handleModalOpen();
+    } finally {
+      handleSetIsLoading(false);
     }
   };
 
@@ -131,6 +145,8 @@ export const useModalController = (variant: string, cleanData: () => void) => {
       vencimentoHabilitacao: `${licenseExpiration}`,
     };
 
+    handleSetIsLoading(true);
+
     try {
       await handleEditDriver(formatDataToRequest, driverId);
       handleSetIsSuccessfully(true);
@@ -140,8 +156,14 @@ export const useModalController = (variant: string, cleanData: () => void) => {
       handleModalOpen();
     } catch (error: any) {
       handleSetIsSuccessfully(false);
-      handleSetText("Não foi possível editar o condutor.");
+      handleSetText(
+        error.message.length > 0
+          ? error.message
+          : "Não foi possível editar o condutor."
+      );
       handleModalOpen();
+    } finally {
+      handleSetIsLoading(false);
     }
   };
 

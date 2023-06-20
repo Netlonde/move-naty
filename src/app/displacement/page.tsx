@@ -11,6 +11,7 @@ import {
   CustomSearchInput,
   Navbar,
   DeleteModal,
+  Loading,
 } from "@/components";
 import { Box, Typography } from "@mui/material";
 import { CustomButton } from "@/components/customButton/CustomButton";
@@ -22,12 +23,11 @@ export default function Displacement() {
   const {
     tableHead,
     actionModalData,
-    isEdit,
     displacementId,
     isOpenDisplacementModal,
     handleDeleteModalOpen,
     isOpenDeleteModal,
-    handleOpenRegisterModal,
+    isLoading,
     handleDrawerOpen,
     handleModalOpen,
     isOpenInfoModal,
@@ -114,6 +114,8 @@ export default function Displacement() {
           handleModalClose={handleDeleteModalOpen}
         />
       )}
+
+      {isLoading && <Loading />}
     </Background>
   );
 }

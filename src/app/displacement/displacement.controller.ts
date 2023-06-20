@@ -3,6 +3,7 @@ import {
   useDisplacementsStore,
   useInfoModalStore,
   useDeleteModalStore,
+  useLoadingModalStore,
 } from "@/store";
 import { useEffect, useState } from "react";
 
@@ -19,6 +20,8 @@ export const useDisplacementController = () => {
     handleSearchDisplacementData,
   } = useDisplacementsStore();
   const { handleDrawerOpen } = useActionModalStore();
+
+  const { isLoading, handleSetIsLoading } = useLoadingModalStore();
 
   const {
     handleModalOpen,
@@ -75,6 +78,7 @@ export const useDisplacementController = () => {
   }
 
   async function onSubmitDelete(id: string) {
+    handleSetIsLoading(true);
     try {
       await deleteDisplacementRequest(id);
       handleSetIsSuccessfully(true);
@@ -83,8 +87,14 @@ export const useDisplacementController = () => {
       cleanDataAndId();
     } catch (error: any) {
       handleSetIsSuccessfully(false);
-      handleSetText("Não foi possível excluir o cliente!");
+      handleSetText(
+        error.message.length > 0
+          ? error.message
+          : "Não foi possível excluir o cliente!"
+      );
       handleModalOpen();
+    } finally {
+      handleSetIsLoading(false);
     }
   }
 
@@ -118,6 +128,7 @@ export const useDisplacementController = () => {
     isSuccessfully,
     handleDeleteModalOpen,
     isOpenDeleteModal,
+    isLoading,
     text,
     tableData,
     cleanDataAndId,

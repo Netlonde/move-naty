@@ -12,7 +12,7 @@ export const getAllClients = async (): Promise<IClients[]> => {
 
     return data;
   } catch (error: any) {
-    throw new Error(error.response.data.errorCode);
+    throw new Error(error.response.data);
   }
 };
 
@@ -26,7 +26,7 @@ export const registerClient = async (clientData: IClients): Promise<void> => {
       data: clientData,
     });
   } catch (error: any) {
-    throw new Error(error.response.data.errorCode);
+    throw new Error(error.response.data);
   }
 };
 
@@ -43,7 +43,7 @@ export const editClient = async (
       data: clientData,
     });
   } catch (error: any) {
-    throw new Error(error.response.data.errorCode);
+    throw new Error(error.response.data);
   }
 };
 
@@ -59,7 +59,7 @@ export const getClientDetailsById = async (
 
     return data;
   } catch (error: any) {
-    throw new Error(error.response.data.errorCode);
+    throw new Error(error.response.data);
   }
 };
 
@@ -72,6 +72,6 @@ export const deleteClient = async (id: string): Promise<void> => {
       data: { id },
     });
   } catch (error: any) {
-    throw new Error(error.response.data.errorCode);
+    throw new Error(error.response.data);
   }
 };

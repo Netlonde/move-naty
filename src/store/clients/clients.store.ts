@@ -36,7 +36,7 @@ const useClientsStore = create<ClientsProps>((set, get) => ({
   handleSetIsOpenClientModal: (isOpenClientModal) =>
     set((state) => ({ ...state, isOpenClientModal })),
 
-  handleCreateClient: async (clientData) => {
+  handleCreateClient: async (clientData: any) => {
     try {
       await registerClient(clientData);
     } catch (error: any) {
