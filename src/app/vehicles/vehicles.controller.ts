@@ -76,7 +76,9 @@ export const useVehicleController = () => {
       cleanDataAndId();
     } catch (error: any) {
       handleSetIsSuccessfully(false);
-      handleSetText("Não foi possível excluir o veículo!");
+      handleSetText(
+        error.length > 0 ? error : "Não foi possível excluir o veículo!"
+      );
       handleModalOpen();
     }
   }

@@ -115,7 +115,9 @@ export const useModalController = (variant: string, cleanData: () => void) => {
       handleModalOpen();
     } catch (error: any) {
       handleSetIsSuccessfully(false);
-      handleSetText("Não foi possível cadastrar o veículo.");
+      handleSetText(
+        error.length > 0 ? error : "Não foi possível cadastrar o veículo."
+      );
       handleModalOpen();
     }
   };
@@ -139,7 +141,9 @@ export const useModalController = (variant: string, cleanData: () => void) => {
       handleModalOpen();
     } catch (error: any) {
       handleSetIsSuccessfully(false);
-      handleSetText("Não foi possível editar o veículo.");
+      handleSetText(
+        error.length > 0 ? error : "Não foi possível editar o veículo."
+      );
       handleModalOpen();
     }
   };

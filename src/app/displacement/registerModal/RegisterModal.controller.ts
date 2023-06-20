@@ -86,7 +86,9 @@ export const useModalController = (variant: string, cleanData: () => void) => {
       handleModalOpen();
     } catch (error: any) {
       handleSetIsSuccessfully(false);
-      handleSetText("Não foi possível editar o displacemente.");
+      handleSetText(
+        error.length > 0 ? error : "Não foi possível editar o displacemente."
+      );
       handleModalOpen();
     }
   };

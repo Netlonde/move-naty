@@ -11,7 +11,7 @@ export const getAllVehicles = async (): Promise<IVehicles[]> => {
 
     return data;
   } catch (error: any) {
-    throw new Error(error.response.data.errorCode);
+    throw new Error(error.response.data);
   }
 };
 
@@ -27,7 +27,7 @@ export const registerVehicle = async (
       data: vehicleData,
     });
   } catch (error: any) {
-    throw new Error(error.response.data.errorCode);
+    throw new Error(error.response.data);
   }
 };
 
@@ -44,7 +44,7 @@ export const editVehicle = async (
       data: vehicleData,
     });
   } catch (error: any) {
-    throw new Error(error.response.data.errorCode);
+    throw new Error(error.response.data);
   }
 };
 
@@ -60,7 +60,7 @@ export const getVehicleDetailsById = async (
 
     return data;
   } catch (error: any) {
-    throw new Error(error.response.data.errorCode);
+    throw new Error(error.response.data);
   }
 };
 
@@ -73,6 +73,6 @@ export const deleteVehicle = async (id: string): Promise<void> => {
       data: { id },
     });
   } catch (error: any) {
-    throw new Error(error.response.data.errorCode);
+    throw new Error(error.response.data);
   }
 };

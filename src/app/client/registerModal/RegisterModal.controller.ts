@@ -131,7 +131,9 @@ export const useModalController = (variant: string, cleanData: () => void) => {
       handleModalOpen();
     } catch (error: any) {
       handleSetIsSuccessfully(false);
-      handleSetText("Não foi possível cadastrar o cliente.");
+      handleSetText(
+        error.length > 0 ? error : "Não foi possível cadastrar o cliente."
+      );
       handleModalOpen();
     }
   };
@@ -158,7 +160,9 @@ export const useModalController = (variant: string, cleanData: () => void) => {
       handleModalOpen();
     } catch (error: any) {
       handleSetIsSuccessfully(false);
-      handleSetText("Não foi possível editar o cliente.");
+      handleSetText(
+        error.length > 0 ? error : "Não foi possível editar o cliente."
+      );
       handleModalOpen();
     }
   };

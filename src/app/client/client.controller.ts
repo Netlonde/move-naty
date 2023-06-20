@@ -80,7 +80,9 @@ export const useClientController = () => {
       cleanDataAndId();
     } catch (error: any) {
       handleSetIsSuccessfully(false);
-      handleSetText("Não foi possível excluir o cliente!");
+      handleSetText(
+        error.length > 0 ? error : "Não foi possível excluir o cliente!"
+      );
       handleModalOpen();
     }
   }

@@ -15,7 +15,7 @@ export const getAllDisplacements = async (): Promise<IDisplacement[]> => {
 
     return data;
   } catch (error: any) {
-    throw new Error(error.response.data.errorCode);
+    throw new Error(error.response.data);
   }
 };
 
@@ -36,7 +36,7 @@ export const getLocation = async (location: string): Promise<any> => {
       },
     };
   } catch (error: any) {
-    throw new Error(error.response.data.errorCode);
+    throw new Error(error.response.data);
   }
 };
 
@@ -52,7 +52,7 @@ export const registerDisplacement = async (
       data: clientData,
     });
   } catch (error: any) {
-    throw new Error(error.response.data.errorCode);
+    throw new Error(error.response.data);
   }
 };
 
@@ -69,7 +69,7 @@ export const finishDisplacement = async (
       data: clientData,
     });
   } catch (error: any) {
-    throw new Error(error.response.data.errorCode);
+    throw new Error(error.response.data);
   }
 };
 
@@ -85,7 +85,7 @@ export const getDisplacementDetailsById = async (
 
     return data;
   } catch (error: any) {
-    throw new Error(error.response.data.errorCode);
+    throw new Error(error.response.data);
   }
 };
 
@@ -98,6 +98,6 @@ export const deleteDisplacement = async (id: string): Promise<void> => {
       data: { id },
     });
   } catch (error: any) {
-    throw new Error(error.response.data.errorCode);
+    throw new Error(error.response.data);
   }
 };

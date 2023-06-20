@@ -76,7 +76,9 @@ export const useDriverController = () => {
       cleanDataAndId();
     } catch (error: any) {
       handleSetIsSuccessfully(false);
-      handleSetText("Não foi possível excluir o condutor!");
+      handleSetText(
+        error.length > 0 ? error : "Não foi possível excluir o condutor!"
+      );
       handleModalOpen();
     }
   }
