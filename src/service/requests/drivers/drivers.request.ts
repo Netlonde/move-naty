@@ -12,7 +12,7 @@ export const getAllDrivers = async (): Promise<IDrivers[]> => {
 
     return data;
   } catch (error: any) {
-    throw new Error(error.response.data.errorCode);
+    throw new Error(error.response.data);
   }
 };
 
@@ -28,7 +28,7 @@ export const registerDriver = async (
       data: driverData,
     });
   } catch (error: any) {
-    throw new Error(error.response.data.errorCode);
+    throw new Error(error.response.data);
   }
 };
 
@@ -45,7 +45,7 @@ export const editDriver = async (
       data: driverData,
     });
   } catch (error: any) {
-    throw new Error(error.response.data.errorCode);
+    throw new Error(error.response.data);
   }
 };
 
@@ -61,18 +61,19 @@ export const getDriverDetailsById = async (
 
     return data;
   } catch (error: any) {
-    throw new Error(error.response.data.errorCode);
+    throw new Error(error.response.data);
   }
 };
 
-// export const deleteArea = async (id: string): Promise<void> => {
-//   try {
-//     await instance.request({
-//       method: 'DELETE',
-//       url: `area/area-remove/${id}`,
-//       baseURL: process.env.REACT_APP_MS_AREA
-//     });
-//   } catch (error: any) {
-//     throw new Error(error.response.data.errorCode);
-//   }
-// };
+export const deleteDriver = async (id: string): Promise<void> => {
+  try {
+    await instance.request({
+      method: "DELETE",
+      url: `Condutor/${id}`,
+      baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+      data: { id },
+    });
+  } catch (error: any) {
+    throw new Error(error.response.data);
+  }
+};

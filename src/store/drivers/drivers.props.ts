@@ -26,9 +26,14 @@ export interface DriversProps {
   driverById: Drivers;
   handleSetIsOpenDriverModal: (isOpenDriverModal: boolean) => void;
   handleSetDriverId: (id: string) => void;
+  deleteDriverRequest: (id: string) => void;
   getAllDriversRequest: () => Promise<void>;
   getDriverByIdRequest: (id: string) => Promise<void>;
   handleSetDriversId: (ids: string[]) => void;
+  handleSearchDriverData: (name: string) => {
+    formatedRowsId: string[];
+    formatedDriverData: any;
+  };
   handleCreateDriver: (driverData: RegisterDriver) => Promise<void>;
   handleEditDriver: (driverData: EditDriver, id: string) => Promise<void>;
 }

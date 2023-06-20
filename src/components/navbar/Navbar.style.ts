@@ -5,7 +5,7 @@ const Background = styled.nav`
   display: flex;
   padding: 20px;
   align-items: center;
-  background-color: #050816;
+  background-color: #121212;
   justify-content: center;
   color: #fff;
   position: fixed;
@@ -45,6 +45,22 @@ export const Container = styled.div`
     cursor: pointer;
     font-weight: bold;
     color: #fff;
+  }
+
+  .MobileContainer {
+    display: none;
+  }
+
+  @media (max-width: 660px) {
+    .driverAndClientSections {
+      display: none;
+    }
+
+    .MobileContainer {
+      display: block;
+      font-size: 19px;
+      cursor: pointer;
+    }
   }
 `;
 

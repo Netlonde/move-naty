@@ -4,19 +4,26 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { FormRequiredFields } from "./RegisterModal.props";
-import { useDriversStore, useInfoModalStore } from "@/store";
+import {
+  useDriversStore,
+  useInfoModalStore,
+  useLoadingModalStore,
+} from "@/store";
 
-export const useModalController = (variant: string) => {
+export const useModalController = (variant: string, cleanData: () => void) => {
   const { handleModalOpen, handleSetIsSuccessfully, handleSetText } =
     useInfoModalStore();
   const {
     handleSetIsOpenDriverModal,
+    isOpenDriverModal,
     handleCreateDriver,
     getDriverByIdRequest,
     driverById,
     handleEditDriver,
     driverId,
   } = useDriversStore();
+
+  const { handleSetIsLoading } = useLoadingModalStore();
 
   const schema =
     variant === "edit"
@@ -63,7 +70,7 @@ export const useModalController = (variant: string) => {
     defaultValues: {
       name: "",
       licenseNumber: "",
-      licenseCategory: "",
+      licenseCategory: "A",
       licenseExpiration: "",
     },
     resolver: yupResolver(schema),
@@ -81,17 +88,19 @@ export const useModalController = (variant: string) => {
 
   const getDriverDataFromRequest = async () => {
     if (variant !== "edit") return;
-    try {
-      await getDriverByIdRequest(driverId);
-    } catch (error: any) {
-      handleSetIsSuccessfully(false);
-      handleSetText("Não foi possível obter os dados do condutor.");
-      handleModalOpen();
-    }
+    await getDriverByIdRequest(driverId);
   };
 
   function closeRegisterModal() {
     handleSetIsOpenDriverModal(false);
+  }
+
+  function cleanFields() {
+    setValue("licenseCategory", "A");
+    setValue("licenseExpiration", "");
+    setValue("licenseNumber", "");
+    setValue("name", "");
+    cleanData();
   }
 
   const onSubmitRegister = async () => {
@@ -105,16 +114,25 @@ export const useModalController = (variant: string) => {
       vencimentoHabilitacao: licenseExpiration,
     };
 
+    handleSetIsLoading(true);
+
     try {
       await handleCreateDriver(formatDataToRequest);
       handleSetIsSuccessfully(true);
       handleSetText("Condutor cadastrado com sucesso!");
       closeRegisterModal();
+      cleanFields();
       handleModalOpen();
     } catch (error: any) {
       handleSetIsSuccessfully(false);
-      handleSetText("Não foi possível cadastrar o condutor.");
+      handleSetText(
+        error.message.length > 0
+          ? error.message
+          : "Não foi possível cadastrar o condutor."
+      );
       handleModalOpen();
+    } finally {
+      handleSetIsLoading(false);
     }
   };
 
@@ -123,20 +141,29 @@ export const useModalController = (variant: string) => {
 
     const formatDataToRequest = {
       id: driverById.id,
-      categoriaHabilitacao: `${driverById.licenseCategory}${licenseCategory}`,
+      categoriaHabilitacao: `${driverById.licenseCategory}-${licenseCategory}`,
       vencimentoHabilitacao: `${licenseExpiration}`,
     };
+
+    handleSetIsLoading(true);
 
     try {
       await handleEditDriver(formatDataToRequest, driverId);
       handleSetIsSuccessfully(true);
       handleSetText("Condutor editado com sucesso!");
       closeRegisterModal();
+      cleanFields();
       handleModalOpen();
     } catch (error: any) {
       handleSetIsSuccessfully(false);
-      handleSetText("Não foi possível editar o condutor.");
+      handleSetText(
+        error.message.length > 0
+          ? error.message
+          : "Não foi possível editar o condutor."
+      );
       handleModalOpen();
+    } finally {
+      handleSetIsLoading(false);
     }
   };
 
@@ -153,7 +180,7 @@ export const useModalController = (variant: string) => {
 
   useEffect(() => {
     getDriverDataFromRequest();
-  }, [driverId]);
+  }, [driverId, isOpenDriverModal]);
 
   return {
     handleSubmit,

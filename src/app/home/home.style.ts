@@ -5,13 +5,11 @@ const Background = styled.div`
   height: 100%;
   display: flex;
   justify-content: center;
-  background-color: #050816;
 
   .mainContent {
     width: 100%;
     height: 100%;
     position: relative;
-    max-width: 1400px;
   }
 `;
 

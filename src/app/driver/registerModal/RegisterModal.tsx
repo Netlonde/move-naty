@@ -14,7 +14,12 @@ import { useModalController } from "./RegisterModal.controller";
 import { ModalProps } from "./RegisterModal.props";
 import { ModalContent, ModalInput } from "./RegisterModal.style";
 
-export function RegisterModal({ isModalOpen, title, variant }: ModalProps) {
+export function RegisterModal({
+  isModalOpen,
+  title,
+  variant,
+  cleanData,
+}: ModalProps) {
   const {
     control,
     register,
@@ -25,15 +30,7 @@ export function RegisterModal({ isModalOpen, title, variant }: ModalProps) {
     submit,
     handleSubmit,
     driverById,
-  } = useModalController(variant);
-
-  useEffect(() => {
-    if (variant !== "edit") {
-      reset();
-    }
-  }, [isModalOpen]);
-
-  console.log(variant);
+  } = useModalController(variant, cleanData);
 
   return (
     <ModalComponent open={isModalOpen} onClose={closeRegisterModal}>
@@ -51,7 +48,6 @@ export function RegisterModal({ isModalOpen, title, variant }: ModalProps) {
             control={control}
             render={({ field: { onChange, value } }) => (
               <ModalInput
-                id="admin-register-input-name"
                 placeholder="Insira o nome completo"
                 {...register("name")}
                 error={!!errors.name}
